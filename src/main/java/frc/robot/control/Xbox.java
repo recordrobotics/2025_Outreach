@@ -24,8 +24,8 @@ public class Xbox extends AbstractControl {
     // Gets information needed to drive
     DriveCommandData driveCommandData =
         new DriveCommandData(
-            -(getXY().getFirst() * 0 + getAB().getFirst()) * getDirectionalSpeedLevel(),
-            (getXY().getSecond() * 0 + getAB().getSecond()) * getDirectionalSpeedLevel(),
+            -(getXY().getFirst() + getAB().getFirst() * 0) * getDirectionalSpeedLevel(),
+            (getXY().getSecond() + getAB().getSecond() * 0) * getDirectionalSpeedLevel(),
             (-getSpin() * isJoyOn() + (getSpinJoy() / 0.7)) * getSpinSpeedLevel(),
             false);
 
