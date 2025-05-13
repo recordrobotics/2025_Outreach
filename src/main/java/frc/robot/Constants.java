@@ -97,7 +97,7 @@ public final class Constants {
     public static final double FALCON_TURN_KI = 0;
     public static final double FALCON_TURN_KD = 0;
 
-    public static final double FALCON_DRIVE_KP = 1;// 0.2681;
+    public static final double FALCON_DRIVE_KP = 1; // 0.2681;
     public static final double FALCON_DRIVE_KI = 0;
     public static final double FALCON_DRIVE_KD = 0;
 
@@ -152,7 +152,11 @@ public final class Constants {
     // #endregion
 
     public static final ModuleConstants leftConstants =
-        ModuleConstants.fromConfig(MotorLocation.Left, MotorType.Kraken); // why is this bouncing around? Constants -> ModuleConstants -> back to Constants ???
+        ModuleConstants.fromConfig(
+            MotorLocation.Left,
+            MotorType
+                .Kraken); // why is this bouncing around? Constants -> ModuleConstants -> back to
+    // Constants ???
 
     public static final ModuleConstants rightConstants =
         ModuleConstants.fromConfig(MotorLocation.Right, MotorType.Kraken);
