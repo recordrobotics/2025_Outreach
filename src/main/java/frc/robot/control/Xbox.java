@@ -50,7 +50,7 @@ public class Xbox extends AbstractControl {
     double Y =
         SimpleMath.ApplyThresholdAndSensitivity(
             drivebox.getRawAxis(1),
-            Constants.Control.XBOX_X_THRESHOLD,
+            Constants.Control.XBOX_Y_THRESHOLD,
             Constants.Control.XBOX_DIRECTIONAL_SENSITIVITY);
     return super.OrientXY(new Pair<Double, Double>(X, Y));
   }

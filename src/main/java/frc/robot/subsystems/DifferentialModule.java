@@ -51,8 +51,8 @@ public class DifferentialModule {
     this.DRIVE_GEAR_RATIO = m.DRIVE_GEAR_RATIO;
     this.WHEEL_DIAMETER = m.WHEEL_DIAMETER;
 
-    // ~2 Seconds delay per swerve module
-    Timer.delay(2.3);
+    // ~2 Seconds delay per swerve module (TANK NOT SWERVE)
+    // Timer.delay(2.3);
 
     // Sets motor speeds to 0
     m_driveMotor.set(0);
@@ -120,7 +120,7 @@ public class DifferentialModule {
     double driveFeedforwardOutput = driveFeedForward.calculate(speedMetersPerSecond);
     m_driveMotor.setVoltage(driveOutput + driveFeedforwardOutput);
 
-    graph[m_driveMotor.getDeviceId() == 2 ? 0 : 2] = speedMetersPerSecond;
+    // graph[m_driveMotor.getDeviceId() == 2 ? 0 : 2] = speedMetersPerSecond;
 
     SmartDashboard.putNumberArray("drive", graph);
   }

@@ -15,7 +15,7 @@ public class Shoot extends SequentialCommandGroup {
   private final double flywheelSpinupTime = 0.3; // 1.5;
 
   /** Number of seconds it takes to shoot once the flywheel h as been spun up */
-  private final double shootTime = 2;
+  private final double shootTime = 0.5;
 
   /**
    * Command that shoots the note into the speaker. Manages all relevant subsystems to do so.
@@ -32,7 +32,7 @@ public class Shoot extends SequentialCommandGroup {
     addCommands(
         new InstantCommand(() -> _shooter.toggle(ShooterStates.SPEAKER), _shooter)
             .handleInterrupt(killSpecified),
-        new WaitCommand(flywheelSpinupTime),
+        // new WaitCommand(flywheelSpinupTime),
         new WaitCommand(shootTime),
         new InstantCommand(() -> _shooter.toggle(ShooterStates.OFF), _shooter)
             .handleInterrupt(killSpecified));
