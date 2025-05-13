@@ -97,7 +97,7 @@ public final class Constants {
     public static final double FALCON_TURN_KI = 0;
     public static final double FALCON_TURN_KD = 0;
 
-    public static final double FALCON_DRIVE_KP = 1; // 0.2681;
+    public static final double FALCON_DRIVE_KP = 0.2681;
     public static final double FALCON_DRIVE_KI = 0;
     public static final double FALCON_DRIVE_KD = 0;
 
