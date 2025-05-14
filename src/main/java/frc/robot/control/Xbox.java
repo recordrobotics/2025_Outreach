@@ -1,7 +1,6 @@
 package frc.robot.control;
 
 import edu.wpi.first.math.Pair;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants;
 import frc.robot.utils.DriveCommandData;
@@ -17,29 +16,22 @@ public class Xbox extends AbstractControl {
     drivebox = new XboxController(driveboxID);
   }
 
-  Joystick joystick = new Joystick(1);
+  // Joystick joystick = new Joystick(1);
 
   @Override
   public DriveCommandData getDriveCommandData() {
     // Gets information needed to drive
     DriveCommandData driveCommandData =
         new DriveCommandData(
-            -(getXY().getFirst() + getAB().getFirst() * 0) * getDirectionalSpeedLevel(),
-            (getXY().getSecond() + getAB().getSecond() * 0) * getDirectionalSpeedLevel(),
-            (-getSpin() * isJoyOn() + (getSpinJoy() / 0.7)) * getSpinSpeedLevel(),
+            -(getXY().getFirst()) * getDirectionalSpeedLevel(),
+            (getXY().getSecond()) * getDirectionalSpeedLevel(),
+            (-getSpin()) * getSpinSpeedLevel(),
             false);
 
     // Returns
     return driveCommandData;
   }
 
-  public int isJoyOn() {
-    if (Math.abs(getSpinJoy()) <= 0.1) {
-      return 1;
-    } else {
-      return 0;
-    }
-  }
 
   public Pair<Double, Double> getXY() {
     double X =
@@ -55,19 +47,7 @@ public class Xbox extends AbstractControl {
     return super.OrientXY(new Pair<Double, Double>(X, Y));
   }
 
-  public Pair<Double, Double> getAB() {
-    double A =
-        SimpleMath.ApplyThresholdAndSensitivity(
-            joystick.getX(),
-            Constants.Control.JOYSTICK_X_THRESHOLD,
-            Constants.Control.JOSYSTICK_DIRECTIONAL_SENSITIVITY);
-    double B =
-        SimpleMath.ApplyThresholdAndSensitivity(
-            joystick.getY(),
-            Constants.Control.JOYSTICK_Y_THRESHOLD,
-            Constants.Control.JOSYSTICK_DIRECTIONAL_SENSITIVITY);
-    return super.OrientXY(new Pair<Double, Double>(A, B));
-  }
+
 
   public Double getSpin() {
     return SimpleMath.ApplyThresholdAndSensitivity(
@@ -76,12 +56,6 @@ public class Xbox extends AbstractControl {
         Constants.Control.XBOX_SPIN_ROT_SENSITIVITY);
   }
 
-  public Double getSpinJoy() {
-    return SimpleMath.ApplyThresholdAndSensitivity(
-        -joystick.getTwist(),
-        Constants.Control.JOYSTICK_SPIN_THRESHOLD,
-        Constants.Control.JOYSTICK_SPIN_SENSITIVITY);
-  }
 
   public Double getDirectionalSpeedLevel() {
     return speed_level;
@@ -103,20 +77,16 @@ public class Xbox extends AbstractControl {
 
   @Override
   public Boolean getShoot() {
-    return drivebox.getRightTriggerAxis() > 0.3 || joystick.getRawButton(1);
+    return drivebox.getRightTriggerAxis() > 0.3;
   }
 
   @Override
   public Boolean getReverse() {
-    return drivebox.getRawButton(6) || joystick.getRawButton(2);
+    return drivebox.getRawButton(6);
   }
 
   @Override
   public Boolean getLoad() {
-    return drivebox.getRawButton(1)
-        || joystick.getRawButton(3)
-        || joystick.getRawButton(4)
-        || joystick.getRawButton(5)
-        || joystick.getRawButton(6);
+    return drivebox.getRawButton(1);
   }
 }
