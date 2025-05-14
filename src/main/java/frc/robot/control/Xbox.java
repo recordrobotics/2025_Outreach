@@ -32,7 +32,6 @@ public class Xbox extends AbstractControl {
     return driveCommandData;
   }
 
-
   public Pair<Double, Double> getXY() {
     double X =
         SimpleMath.ApplyThresholdAndSensitivity(
@@ -47,15 +46,12 @@ public class Xbox extends AbstractControl {
     return super.OrientXY(new Pair<Double, Double>(X, Y));
   }
 
-
-
   public Double getSpin() {
     return SimpleMath.ApplyThresholdAndSensitivity(
         -drivebox.getRawAxis(4),
         Constants.Control.XBOX_SPIN_ROT_THRESHOLD,
         Constants.Control.XBOX_SPIN_ROT_SENSITIVITY);
   }
-
 
   public Double getDirectionalSpeedLevel() {
     return speed_level;

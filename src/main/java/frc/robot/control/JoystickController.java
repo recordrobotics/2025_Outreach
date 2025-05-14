@@ -6,11 +6,11 @@ import frc.robot.Constants;
 import frc.robot.utils.DriveCommandData;
 import frc.robot.utils.SimpleMath;
 
-
 public class JoystickController extends AbstractControl {
 
   private double speed_level = 0.8;
   Joystick drivestick;
+
   public JoystickController(int drivestickID) {
     // Sets up xbox controllers
     drivestick = new Joystick(drivestickID);
@@ -30,22 +30,19 @@ public class JoystickController extends AbstractControl {
     return driveCommandData;
   }
 
-
-
   public Pair<Double, Double> getAB() {
     double A =
         SimpleMath.ApplyThresholdAndSensitivity(
-          drivestick.getX(),
+            drivestick.getX(),
             Constants.Control.JOYSTICK_X_THRESHOLD,
             Constants.Control.JOSYSTICK_DIRECTIONAL_SENSITIVITY);
     double B =
         SimpleMath.ApplyThresholdAndSensitivity(
-          drivestick.getY(),
+            drivestick.getY(),
             Constants.Control.JOYSTICK_Y_THRESHOLD,
             Constants.Control.JOSYSTICK_DIRECTIONAL_SENSITIVITY);
     return super.OrientXY(new Pair<Double, Double>(A, B));
   }
-
 
   public Double getSpinJoy() {
     return SimpleMath.ApplyThresholdAndSensitivity(
@@ -89,5 +86,4 @@ public class JoystickController extends AbstractControl {
         || drivestick.getRawButton(5)
         || drivestick.getRawButton(6);
   }
-    
 }
