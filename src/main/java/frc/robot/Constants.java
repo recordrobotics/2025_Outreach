@@ -8,6 +8,7 @@ import static edu.wpi.first.units.Units.*;
 
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.measure.Current;
+import edu.wpi.first.wpilibj.RobotBase;
 import frc.robot.utils.ModuleConstants;
 import frc.robot.utils.ModuleConstants.MotorLocation;
 import frc.robot.utils.ModuleConstants.MotorType;
@@ -39,7 +40,6 @@ public final class Constants {
 
   public final class Shooter {
 
-    // used variables
     public static final double SHOOT_TIME = .5;
 
     // voltage values
@@ -50,6 +50,10 @@ public final class Constants {
     public static final Current SUPPLY_CURRENT_LIMIT = Amps.of(40);
     public static final Current STATOR_CURRENT_LIMIT = Amps.of(120);
     public static final double GEAR_RATIO = 4; // No IDEA WHAT GEAR RATIO CURRENTLY IS, FIX LATER
+
+    public static final double SPEAKER_SPEED = .7;
+    public static final double AMP_SPEED = 0.25;
+    public static final double REVERSE_SPEED = -0.5;
   }
 
   // public final class Channel {
@@ -68,7 +72,7 @@ public final class Constants {
     public static final double SPIN_SPEED_METER_HIGH = 2.4;
 
     // Sensitivies for directional controls (XY) and spin (theta)
-    public static final double JOSYSTICK_DIRECTIONAL_SENSITIVITY = 1;
+    public static final double JOSYSTICK_DIRECTIONAL_SENSITIVITY = 1; // what a typo // Joshstick
     public static final double JOYSTICK_SPIN_SENSITIVITY = 2;
     public static final double JOYSTICK_X_THRESHOLD = 0.15;
     public static final double JOYSTICK_Y_THRESHOLD = 0.15;
@@ -152,5 +156,19 @@ public final class Constants {
 
     public static final ModuleConstants rightConstants =
         ModuleConstants.fromConfig(MotorLocation.Right, MotorType.Neo);
+  }
+
+  public final class RobotState {
+    public static Mode getMode() {
+      return RobotBase.isReal() ? Mode.REAL : (RobotBase.isSimulation() ? Mode.SIM : Mode.REPLAY);
+    }
+
+    public static final boolean MOTOR_LOGGING_ENABLED = false;
+
+    public static enum Mode {
+      REAL,
+      SIM,
+      REPLAY
+    }
   }
 }
