@@ -5,9 +5,12 @@
 package frc.robot;
 
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.RobotBase;
 import frc.robot.utils.ModuleConstants;
 import frc.robot.utils.ModuleConstants.MotorLocation;
 import frc.robot.utils.ModuleConstants.MotorType;
+
+
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -160,5 +163,19 @@ public final class Constants {
 
     public static final ModuleConstants rightConstants =
         ModuleConstants.fromConfig(MotorLocation.Right, MotorType.Kraken);
+  }
+
+  public final class RobotState {
+    public static Mode getMode() {
+      return RobotBase.isReal() ? Mode.REAL : (RobotBase.isSimulation() ? Mode.SIM : Mode.REPLAY);
+    }
+
+    public static final boolean MOTOR_LOGGING_ENABLED = false;
+
+    public static enum Mode {
+      REAL,
+      SIM,
+      REPLAY
+    }
   }
 }

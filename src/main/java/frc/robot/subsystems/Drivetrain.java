@@ -5,6 +5,8 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import frc.robot.Constants;
+import frc.robot.Constants.RobotState.Mode;
+import frc.robot.subsystems.io.real.DifferentialModuleReal;
 import frc.robot.utils.DriveCommandData;
 
 /** Represents a swerve drive style drivetrain. */
@@ -15,13 +17,24 @@ public class Drivetrain extends KillableSubsystem {
       new DifferentialDriveKinematics(Constants.Frame.ROBOT_WHEEL_DISTANCE_WIDTH);
 
   // Create module objects
-  private final DifferentialModule m_left =
-      new DifferentialModule(Constants.Differential.leftConstants);
-  private final DifferentialModule m_right =
-      new DifferentialModule(Constants.Differential.rightConstants);
-
+  // private final DifferentialModuleReal m_left =
+  //     new DifferentialModuleReal(Constants.Differential.leftConstants);
+  // private final DifferentialModule m_right =
+  //     new DifferentialModuleReal(Constants.Differential.rightConstants);
+  public static DifferentialModule m_left;
+  public static DifferentialModule m_right;
   // Init drivetrain
-  public Drivetrain() {}
+  public Drivetrain() {
+    if (Constants.RobotState.getMode() == Mode.REAL) {
+      m_left =
+      new DifferentialModule(new DifferentialModuleReal(Constants.Differential.leftConstants));
+      m_right =
+      new DifferentialModule(new DifferentialModuleReal(Constants.Differential.rightConstants));
+
+  } else {
+
+  }
+  }
 
   /**
    * Method to drive the robot using joystick info.

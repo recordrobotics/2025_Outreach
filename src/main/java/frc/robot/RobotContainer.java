@@ -5,11 +5,14 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Constants.RobotState.Mode;
 // Local imports
 import frc.robot.commands.manual.*;
 import frc.robot.control.*;
 import frc.robot.shuffleboard.ShuffleboardUI;
 import frc.robot.subsystems.*;
+import frc.robot.subsystems.io.real.DifferentialModuleReal;
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -20,11 +23,18 @@ import frc.robot.subsystems.*;
 public class RobotContainer {
 
   // The robot's subsystems and commands are defined here
+  public static DifferentialModule m_differentialmodule;
   private final Drivetrain _drivetrain;
   private final Shooter _shooter;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+
+    if (Constants.RobotState.getMode() == Mode.REAL) {
+      m_differentialmodule = new DifferentialModule(new DifferentialModuleReal());
+    } else {
+
+    }
 
     // Init subsystems
     _drivetrain = new Drivetrain();

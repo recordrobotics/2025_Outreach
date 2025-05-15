@@ -1,4 +1,4 @@
-package frc.robot.subsystems;
+package frc.robot.subsystems.io.real;
 
 import com.revrobotics.spark.SparkBase;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
@@ -9,10 +9,9 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.shuffleboard.ShuffleboardUI;
-import frc.robot.subsystems.io.DifferentialModuleIO;
 import frc.robot.utils.ModuleConstants;
 
-public class DifferentialModule {
+public class DifferentialModuleReal {
 
   private static double[] graph = new double[4];
 
@@ -31,8 +30,9 @@ public class DifferentialModule {
    *
    * @param m - a ModuleConstants object that contains all constants relevant for creating a swerve
    *     module. Look at ModuleConstants.java for what variables are contained
-   */
-  public DifferentialModule(DifferentialModuleIO io) {
+      * @return 
+      */
+     public DifferentialModuleReal(ModuleConstants m) {
     // Creates TalonFX objects
     m_driveMotor = new SparkMax(m.driveMotorChannel, MotorType.kBrushless);
     m_driveMotorFollower = new SparkMax(m.driveMotorFollowerChannel, MotorType.kBrushless);
