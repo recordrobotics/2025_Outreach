@@ -9,7 +9,7 @@ import frc.robot.utils.SimpleMath;
 public class JoystickController extends AbstractControl {
 
   private double speed_level = 0.8;
-  Joystick drivestick;
+  private final Joystick drivestick;
 
   public JoystickController(int drivestickID) {
     // Sets up xbox controllers
@@ -21,30 +21,30 @@ public class JoystickController extends AbstractControl {
     // Gets information needed to drive
     DriveCommandData driveCommandData =
         new DriveCommandData(
-            -(getAB().getFirst()) * getDirectionalSpeedLevel(),
-            (getAB().getSecond()) * getDirectionalSpeedLevel(),
-            (-(getSpinJoy() / 0.7)) * getSpinSpeedLevel(),
+            -(getXY().getFirst()) * getDirectionalSpeedLevel(),
+            (getXY().getSecond()) * getDirectionalSpeedLevel(),
+            (-(getSpin() / 0.7)) * getSpinSpeedLevel(),
             false);
 
     // Returns
     return driveCommandData;
   }
 
-  public Pair<Double, Double> getAB() {
-    double A =
+  public Pair<Double, Double> getXY() {
+    double X =
         SimpleMath.ApplyThresholdAndSensitivity(
             drivestick.getX(),
             Constants.Control.JOYSTICK_X_THRESHOLD,
             Constants.Control.JOSYSTICK_DIRECTIONAL_SENSITIVITY);
-    double B =
+    double Y =
         SimpleMath.ApplyThresholdAndSensitivity(
             drivestick.getY(),
             Constants.Control.JOYSTICK_Y_THRESHOLD,
             Constants.Control.JOSYSTICK_DIRECTIONAL_SENSITIVITY);
-    return super.OrientXY(new Pair<Double, Double>(A, B));
+    return super.OrientXY(new Pair<Double, Double>(X, Y));
   }
 
-  public Double getSpinJoy() {
+  public Double getSpin() {
     return SimpleMath.ApplyThresholdAndSensitivity(
         -drivestick.getTwist(),
         Constants.Control.JOYSTICK_SPIN_THRESHOLD,
