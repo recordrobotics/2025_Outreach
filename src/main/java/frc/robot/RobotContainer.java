@@ -31,7 +31,7 @@ public class RobotContainer {
     _shooter = new Shooter();
 
     // Sets up Control scheme chooser
-    ShuffleboardUI.Overview.addControls(new Xbox(0, 1), new JoystickController(1));
+    ShuffleboardUI.Overview.addControls(new Xbox(0), new JoystickController(1));
 
     // Bindings and Teleop
     configureButtonBindings();

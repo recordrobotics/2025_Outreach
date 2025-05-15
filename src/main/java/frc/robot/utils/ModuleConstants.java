@@ -32,15 +32,11 @@ public class ModuleConstants {
   public double DRIVE_FEEDFORWARD_KS;
   public double DRIVE_FEEDFORWARD_KV;
 
-  public double DriveMaxAngularVelocity;
-  public double DriveMaxAngularAcceleration;
-
   public double WHEEL_DIAMETER;
 
   // Class to store types of motors
   public enum MotorType {
-    Falcon,
-    Kraken
+    Neo
   }
 
   /**
@@ -67,30 +63,18 @@ public class ModuleConstants {
     this.driveMotorFollowerChannel = driveMotorFollowerChannel;
     this.inverted = inverted;
 
-    // Max Angular Acceleration & Velocity
-    this.DriveMaxAngularVelocity = Constants.Differential.DriveMaxAngularVelocity;
-    this.DriveMaxAngularAcceleration = Constants.Differential.DriveMaxAngularAcceleration;
-
     // Shared miscellaneous variables
     this.WHEEL_DIAMETER = Constants.Differential.WHEEL_DIAMETER;
 
     // Drive Motor Constants
     switch (driveMotorType) {
-      case Falcon:
-        this.DRIVE_KP = Constants.Differential.FALCON_DRIVE_KP;
-        this.DRIVE_KI = Constants.Differential.FALCON_DRIVE_KI;
-        this.DRIVE_KD = Constants.Differential.FALCON_DRIVE_KD;
-        this.DRIVE_FEEDFORWARD_KS = Constants.Differential.FALCON_DRIVE_FEEDFORWARD_KS;
-        this.DRIVE_FEEDFORWARD_KV = Constants.Differential.FALCON_DRIVE_FEEDFORWARD_KV;
-        this.DRIVE_GEAR_RATIO = Constants.Differential.FALCON_DRIVE_GEAR_RATIO;
-        break;
-      case Kraken:
-        this.DRIVE_KP = Constants.Differential.KRAKEN_DRIVE_KP;
-        this.DRIVE_KI = Constants.Differential.KRAKEN_DRIVE_KI;
-        this.DRIVE_KD = Constants.Differential.KRAKEN_DRIVE_KD;
-        this.DRIVE_FEEDFORWARD_KS = Constants.Differential.KRAKEN_DRIVE_FEEDFORWARD_KS;
-        this.DRIVE_FEEDFORWARD_KV = Constants.Differential.KRAKEN_DRIVE_FEEDFORWARD_KV;
-        this.DRIVE_GEAR_RATIO = Constants.Differential.KRAKEN_DRIVE_GEAR_RATIO;
+      case Neo:
+        this.DRIVE_KP = Constants.Differential.NEO_KP;
+        this.DRIVE_KI = Constants.Differential.NEO_KI;
+        this.DRIVE_KD = Constants.Differential.NEO_KD;
+        this.DRIVE_FEEDFORWARD_KS = Constants.Differential.NEO_FEEDFORWARD_KS;
+        this.DRIVE_FEEDFORWARD_KV = Constants.Differential.NEO_FEEDFORWARD_KV;
+        this.DRIVE_GEAR_RATIO = Constants.Differential.NEO_GEAR_RATIO;
         break;
     }
   }

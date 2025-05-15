@@ -84,50 +84,18 @@ public final class Constants {
     public static final double locDist = Math.sqrt(locX * locX + locY * locY);
 
     // Gear ratios for falcon and kraken
-    public static final double FALCON_TURN_GEAR_RATIO =
-        15.43; // (https://web.archive.org/web/20230117081053/https://docs.wcproducts.com/wcp-swervex/general-info/ratio-options)
-    public static final double FALCON_DRIVE_GEAR_RATIO =
-        7.36; // (https://web.archive.org/web/20230117081053/https://docs.wcproducts.com/wcp-swervex/general-info/ratio-options)
-
-    public static final double KRAKEN_TURN_GEAR_RATIO = 13.3714;
-    public static final double KRAKEN_DRIVE_GEAR_RATIO = 9.13; // X1 12 pinion
+    public static final double NEO_GEAR_RATIO = 10;
 
     // PID Values
-    public static final double FALCON_TURN_KP = 1;
-    public static final double FALCON_TURN_KI = 0;
-    public static final double FALCON_TURN_KD = 0;
+    public static final double NEO_KP = 1.5;
+    public static final double NEO_KI = 0;
+    public static final double NEO_KD = 0.3;
 
-    public static final double FALCON_DRIVE_KP = 0.2681;
-    public static final double FALCON_DRIVE_KI = 0;
-    public static final double FALCON_DRIVE_KD = 0;
-
-    public static final double FALCON_DRIVE_FEEDFORWARD_KS = 0.1586;
-    public static final double FALCON_DRIVE_FEEDFORWARD_KV = 2.4408;
-
-    public static final double KRAKEN_TURN_KP = 2.3;
-    public static final double KRAKEN_TURN_KI = 0;
-    public static final double KRAKEN_TURN_KD = 0;
-
-    public static final double KRAKEN_DRIVE_KP = 0.8681;
-    public static final double KRAKEN_DRIVE_KI = 0;
-    public static final double KRAKEN_DRIVE_KD = 0;
-
-    public static final double KRAKEN_DRIVE_FEEDFORWARD_KS = 0.1586;
-    public static final double KRAKEN_DRIVE_FEEDFORWARD_KV = 2.4408;
-
-    // Same between Falcon and Kraken since they share the same encoders
-    public static final double RELATIVE_ENCODER_RATIO = 2048;
+    public static final double NEO_FEEDFORWARD_KS = 0.4;
+    public static final double NEO_FEEDFORWARD_KV = 2.4408;
 
     // Wheel diameter
     public static final double WHEEL_DIAMETER = Units.inchesToMeters(6);
-
-    // Turn & Drive max velocity and acceleration
-    public static final double TurnMaxAngularVelocity = 25; // Drivetrain.kMaxAngularSpeed;
-    public static final double TurnMaxAngularAcceleration =
-        34; // 2 * Math.PI; // radians per second squared
-    public static final double DriveMaxAngularVelocity = 15; // Drivetrain.kMaxAngularSpeed;
-    public static final double DriveMaxAngularAcceleration =
-        30; // 2 * Math.PI; // radians per second squared
 
     /** The max speed the robot is allowed to travel */
     public static final double robotMaxSpeed = 7.0;
@@ -144,21 +112,17 @@ public final class Constants {
 
     // #region BACKUP
     public static final ModuleConstants BACKUP_leftConstants =
-        new ModuleConstants(2, 1, false, MotorType.Kraken);
+        new ModuleConstants(2, 1, false, MotorType.Neo);
 
     public static final ModuleConstants BACKUP_rightConstants =
-        new ModuleConstants(4, 3, true, MotorType.Kraken);
+        new ModuleConstants(4, 3, true, MotorType.Neo);
 
     // #endregion
 
     public static final ModuleConstants leftConstants =
-        ModuleConstants.fromConfig(
-            MotorLocation.Left,
-            MotorType
-                .Kraken); // why is this bouncing around? Constants -> ModuleConstants -> back to
-    // Constants ???
+        ModuleConstants.fromConfig(MotorLocation.Left, MotorType.Neo);
 
     public static final ModuleConstants rightConstants =
-        ModuleConstants.fromConfig(MotorLocation.Right, MotorType.Kraken);
+        ModuleConstants.fromConfig(MotorLocation.Right, MotorType.Neo);
   }
 }

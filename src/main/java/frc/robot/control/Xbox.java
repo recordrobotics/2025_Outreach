@@ -1,6 +1,9 @@
 package frc.robot.control;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.Pair;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants;
 import frc.robot.utils.DriveCommandData;
@@ -11,22 +14,31 @@ public class Xbox extends AbstractControl {
   private XboxController drivebox;
   private double speed_level = 0.8;
 
-  public Xbox(int driveboxID, int notesboxID) {
-    // Sets up xbox controllers
+  public Xbox(int driveboxID) {
+    // Sets up xbox controller
     drivebox = new XboxController(driveboxID);
   }
 
-  // Joystick joystick = new Joystick(1);
+  private Translation3d currentXYR = new Translation3d();
 
   @Override
   public DriveCommandData getDriveCommandData() {
-    // Gets information needed to drive
-    DriveCommandData driveCommandData =
-        new DriveCommandData(
+
+    Translation3d xyr =
+        new Translation3d(
             -(getXY().getFirst()) * getDirectionalSpeedLevel(),
             (getXY().getSecond()) * getDirectionalSpeedLevel(),
-            (-getSpin()) * getSpinSpeedLevel(),
-            false);
+            (-getSpin()) * getSpinSpeedLevel());
+    var xy = MathUtil.slewRateLimit(currentXYR.toTranslation2d(), xyr.toTranslation2d(), 0.02, 2.0);
+    var r =
+        MathUtil.slewRateLimit(
+            new Translation2d(currentXYR.getZ(), 0), new Translation2d(xyr.getZ(), 0), 0.02, 7.0);
+
+    currentXYR = new Translation3d(xy.getX(), xy.getY(), r.getX());
+
+    // Gets information needed to drive
+    DriveCommandData driveCommandData =
+        new DriveCommandData(currentXYR.getX(), currentXYR.getY(), currentXYR.getZ(), false);
 
     // Returns
     return driveCommandData;
@@ -43,12 +55,13 @@ public class Xbox extends AbstractControl {
             drivebox.getRawAxis(1),
             Constants.Control.XBOX_Y_THRESHOLD,
             Constants.Control.XBOX_DIRECTIONAL_SENSITIVITY);
+
     return super.OrientXY(new Pair<Double, Double>(X, Y));
   }
 
   public Double getSpin() {
     return SimpleMath.ApplyThresholdAndSensitivity(
-        -drivebox.getRawAxis(4),
+        drivebox.getRawAxis(4),
         Constants.Control.XBOX_SPIN_ROT_THRESHOLD,
         Constants.Control.XBOX_SPIN_ROT_SENSITIVITY);
   }
@@ -58,7 +71,7 @@ public class Xbox extends AbstractControl {
   }
 
   public Double getSpinSpeedLevel() {
-    return .7 * speed_level; // 3.14
+    return 3.14 * speed_level;
   }
 
   // @Override

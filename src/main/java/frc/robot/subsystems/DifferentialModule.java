@@ -4,9 +4,8 @@ import com.revrobotics.spark.SparkBase;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkMaxConfig;
-import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.shuffleboard.ShuffleboardUI;
 import frc.robot.utils.ModuleConstants;
@@ -19,7 +18,7 @@ public class DifferentialModule {
   private final SparkMax m_driveMotor;
   private final SparkMax m_driveMotorFollower;
 
-  private final ProfiledPIDController drivePIDController;
+  private final PIDController drivePIDController;
   private final SimpleMotorFeedforward driveFeedForward;
 
   private final double DRIVE_GEAR_RATIO;
@@ -40,30 +39,24 @@ public class DifferentialModule {
     followerConfig.follow(m_driveMotor).inverted(false);
 
     m_driveMotor.configure(
+        new SparkMaxConfig().inverted(m.inverted),
+        SparkBase.ResetMode.kResetSafeParameters,
+        SparkBase.PersistMode.kPersistParameters);
+
+    m_driveMotorFollower.configure(
         followerConfig,
         SparkBase.ResetMode.kResetSafeParameters,
         SparkBase.PersistMode.kPersistParameters);
-    // m_driveMotorFollower.addFollower(m_driveMotor);
-    // m_driveMotor.setInverted(m.inverted);
 
     // Creates other variables
     this.DRIVE_GEAR_RATIO = m.DRIVE_GEAR_RATIO;
     this.WHEEL_DIAMETER = m.WHEEL_DIAMETER;
 
-    // ~2 Seconds delay per swerve module (TANK NOT SWERVE)
-    // Timer.delay(2.3);
-
     // Sets motor speeds to 0
     m_driveMotor.set(0);
 
     // Creates PID Controllers
-    this.drivePIDController =
-        new ProfiledPIDController(
-            m.DRIVE_KP,
-            m.DRIVE_KI,
-            m.DRIVE_KD,
-            new TrapezoidProfile.Constraints(
-                m.DriveMaxAngularVelocity, m.DriveMaxAngularAcceleration));
+    this.drivePIDController = new PIDController(m.DRIVE_KP, m.DRIVE_KI, m.DRIVE_KD);
 
     this.driveFeedForward =
         new SimpleMotorFeedforward(m.DRIVE_FEEDFORWARD_KS, m.DRIVE_FEEDFORWARD_KV);
@@ -90,6 +83,15 @@ public class DifferentialModule {
     graph[graphIndex] = wheelMetersPerSecond;
 
     return wheelMetersPerSecond;
+  }
+
+  private double getDriveWheelPosition() {
+    double motorRots = m_driveMotor.getEncoder().getPosition();
+    double wheelRots = motorRots / DRIVE_GEAR_RATIO;
+    double wheelCircumference = WHEEL_DIAMETER * Math.PI;
+    double wheelMeters = wheelRots * wheelCircumference;
+
+    return wheelMeters;
   }
 
   /**
@@ -119,7 +121,9 @@ public class DifferentialModule {
     double driveFeedforwardOutput = driveFeedForward.calculate(speedMetersPerSecond);
     m_driveMotor.setVoltage(driveOutput + driveFeedforwardOutput);
 
-    // graph[m_driveMotor.getDeviceId() == 2 ? 0 : 2] = speedMetersPerSecond;
+    graph[m_driveMotor.getDeviceId() == 2 ? 0 : 2] = speedMetersPerSecond;
+
+    SmartDashboard.putNumber("pos_" + m_driveMotor.getDeviceId(), getDriveWheelPosition());
 
     SmartDashboard.putNumberArray("drive", graph);
   }
