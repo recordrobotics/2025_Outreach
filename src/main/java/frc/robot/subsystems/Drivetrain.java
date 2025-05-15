@@ -1,27 +1,73 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.math.util.Units;
 import frc.robot.Constants;
+import frc.robot.subsystems.io.real.DifferentialModuleReal;
+import frc.robot.subsystems.io.real.NavSensorReal;
+import frc.robot.subsystems.io.sim.DifferentialModuleSim;
+import frc.robot.subsystems.io.sim.NavSensorSim;
 import frc.robot.utils.DriveCommandData;
 
 /** Represents a swerve drive style drivetrain. */
 public class Drivetrain extends KillableSubsystem {
 
+  public final NavSensor nav;
   // Creates differential kinematics
   private final DifferentialDriveKinematics m_kinematics =
       new DifferentialDriveKinematics(Constants.Frame.ROBOT_WHEEL_DISTANCE_WIDTH);
 
-  // Create module objects
-  private final DifferentialModule m_left =
-      new DifferentialModule(Constants.Differential.leftConstants);
-  private final DifferentialModule m_right =
-      new DifferentialModule(Constants.Differential.rightConstants);
+  DifferentialDrivePoseEstimator m_poseEstimator =
+      new DifferentialDrivePoseEstimator(
+          m_kinematics,
+          new Rotation2d(),
+          0.0,
+          0.0,
+          new Pose2d(),
+          VecBuilder.fill(0.05, 0.05, Units.degreesToRadians(5)),
+          VecBuilder.fill(0.5, 0.5, Units.degreesToRadians(30)));
+
+  public static DifferentialModule m_left;
+  public static DifferentialModule m_right;
 
   // Init drivetrain
-  public Drivetrain() {}
+  public Drivetrain() {
+    nav =
+        new NavSensor(
+            Constants.RobotState.getMode() == Constants.RobotState.Mode.REAL
+                ? new NavSensorReal()
+                : new NavSensorSim());
+
+    m_left =
+        new DifferentialModule(
+            Constants.RobotState.getMode() == Constants.RobotState.Mode.REAL
+                ? new DifferentialModuleReal(0.2, Constants.Differential.leftConstants)
+                : new DifferentialModuleSim(0.2, Constants.Differential.leftConstants),
+            Constants.Differential.leftConstants);
+
+    m_right =
+        new DifferentialModule(
+            Constants.RobotState.getMode() == Constants.RobotState.Mode.REAL
+                ? new DifferentialModuleReal(0.2, Constants.Differential.rightConstants)
+                : new DifferentialModuleSim(0.2, Constants.Differential.rightConstants),
+            Constants.Differential.rightConstants);
+
+    m_poseEstimator =
+        new DifferentialDrivePoseEstimator(
+            m_kinematics,
+            nav.getAdjustedAngle(),
+            m_left.getDriveWheelPosition(),
+            m_right.getDriveWheelPosition(),
+            new Pose2d(),
+            VecBuilder.fill(0.05, 0.05, Units.degreesToRadians(5)),
+            VecBuilder.fill(0.5, 0.5, Units.degreesToRadians(30)));
+  }
 
   /**
    * Method to drive the robot using joystick info.
@@ -66,6 +112,8 @@ public class Drivetrain extends KillableSubsystem {
   public void periodic() {
     m_left.update();
     m_right.update();
+    m_poseEstimator.update(
+        nav.getAdjustedAngle(), m_left.getDriveWheelPosition(), m_right.getDriveWheelPosition());
   }
 
   /** Resets the field relative position of the robot (mostly for testing). */
