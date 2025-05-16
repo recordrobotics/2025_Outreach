@@ -14,8 +14,6 @@ import frc.robot.subsystems.*;
 import frc.robot.subsystems.io.real.DifferentialModuleReal;
 
 
-import frc.robot.Constants.ID;
-
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -44,11 +42,11 @@ public class RobotContainer {
 
     // Sets up Control scheme chooser
     ShuffleboardUI.Overview.addControls(
-      new Xbox(Constants.ID.driveboxID),
-      new XboxOnlySpin(Constants.ID.driveboxID), 
-      new JoystickController(Constants.ID.joystickID), 
-      new XboxStick(Constants.ID.driveboxID, Constants.ID.joystickID),
-      new XboxStickOnlySpin(Constants.ID.driveboxID, Constants.ID.joystickID));
+        new Xbox(Constants.ID.driveboxID),
+        new XboxOnlySpin(Constants.ID.driveboxID),
+        new JoystickController(Constants.ID.joystickID),
+        new XboxStick(Constants.ID.driveboxID, Constants.ID.joystickID),
+        new XboxStickOnlySpin(Constants.ID.driveboxID, Constants.ID.joystickID));
 
     // Bindings and Teleop
     configureButtonBindings();
@@ -79,9 +77,8 @@ public class RobotContainer {
         .toggleOnTrue(new Reverse(_shooter));
     new Trigger(() -> ShuffleboardUI.Overview.getControl().getShoot())
         .toggleOnTrue(new Shoot(_shooter));
-    new Trigger(() -> ShuffleboardUI.Overview.getControl().getTwerk()).toggleOnTrue(new
-    RobotTwerk(_drivetrain));
-
+    new Trigger(() -> ShuffleboardUI.Overview.getControl().getTwerk())
+        .toggleOnTrue(new RobotTwerk(_drivetrain));
   }
 
   /**

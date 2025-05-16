@@ -12,14 +12,14 @@ public class XboxStick extends AbstractControl {
   private XboxController drivebox;
   private double speed_level = 0.8;
   private int JoystickID;
-  
-    public XboxStick(int driveboxID, int JoystickID) {
-      this.JoystickID = JoystickID;
+
+  public XboxStick(int driveboxID, int JoystickID) {
+    this.JoystickID = JoystickID;
     // Sets up xbox controllers
     drivebox = new XboxController(driveboxID);
   }
-  Joystick joystick = new Joystick(JoystickID);
 
+  Joystick joystick = new Joystick(JoystickID);
 
   @Override
   public DriveCommandData getDriveCommandData() {
