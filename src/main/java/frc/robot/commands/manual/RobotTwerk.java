@@ -1,5 +1,6 @@
 package frc.robot.commands.manual;
 
+
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -7,6 +8,7 @@ import frc.robot.commands.KillSpecified;
 import frc.robot.control.AbstractControl;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.utils.DriveCommandData;
+import frc.robot.Constants;
 
 public class RobotTwerk extends SequentialCommandGroup {
 
@@ -15,13 +17,12 @@ public class RobotTwerk extends SequentialCommandGroup {
   public AbstractControl _controls;
 
   /** Number of seconds it takes for the flywheel to spin up */
-  private final double flywheelSpinupTime = 0.3; // 1.5;
+  // private final double flywheelSpinupTime = 0.3; // 1.5;
 
   /** Number of seconds it takes to shoot once the flywheel h as been spun up */
-  private final double TwerkTime = 0.5;
-
-  private double TwerkDistance = 0.5; // meters
-  private final int RepeatTime = 2;
+  private final double TwerkTime = Constants.Twerk.TWERK_TIME;
+  private double TwerkDistance = Constants.Twerk.TWERK_DISTANCE; // meters
+  private final int RepeatTime = Constants.Twerk.REPEATS;
 
   /**
    * Command that shoots the note into the speaker. Manages all relevant subsystems to do so.

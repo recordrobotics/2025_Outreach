@@ -28,7 +28,23 @@ public final class Constants {
     public static final int joystickID = 1;
   }
 
+  public final class Twerk {
+    public static final double TWERK_TIME = 0.5;
+    public static final double TWERK_DISTANCE = 0.5; // meters
+    public static final int REPEATS = 2;  
+  }
+
   public final class Shooter {
+
+
+    // used variables
+    public static final double SHOOT_TIME = .5;
+
+
+
+    // unused
+    // unused
+    // unused
     public static final double SPEAKER_SPEED = .7;
     public static final double AMP_SPEED = 0.25;
     public static final double REVERSE_SPEED = -0.5;

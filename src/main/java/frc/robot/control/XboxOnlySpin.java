@@ -76,6 +76,6 @@ public class XboxOnlySpin extends AbstractControl {
 
   @Override
   public Boolean getTwerk() {
-    return drivebox.getRawButton(1);
+    return false;//drivebox.getRawButton(1);
   }
 }
