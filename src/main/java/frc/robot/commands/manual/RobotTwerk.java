@@ -1,14 +1,13 @@
 package frc.robot.commands.manual;
 
-
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.Constants;
 import frc.robot.commands.KillSpecified;
 import frc.robot.control.AbstractControl;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.utils.DriveCommandData;
-import frc.robot.Constants;
 
 public class RobotTwerk extends SequentialCommandGroup {
 
@@ -21,6 +20,7 @@ public class RobotTwerk extends SequentialCommandGroup {
 
   /** Number of seconds it takes to shoot once the flywheel h as been spun up */
   private final double TwerkTime = Constants.Twerk.TWERK_TIME;
+
   private double TwerkDistance = Constants.Twerk.TWERK_DISTANCE; // meters
   private final int RepeatTime = Constants.Twerk.REPEATS;
 

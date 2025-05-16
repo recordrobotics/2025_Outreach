@@ -31,16 +31,13 @@ public final class Constants {
   public final class Twerk {
     public static final double TWERK_TIME = 0.5;
     public static final double TWERK_DISTANCE = 0.5; // meters
-    public static final int REPEATS = 2;  
+    public static final int REPEATS = 2;
   }
 
   public final class Shooter {
 
-
     // used variables
     public static final double SHOOT_TIME = .5;
-
-
 
     // unused
     // unused
