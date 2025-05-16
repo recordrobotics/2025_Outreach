@@ -95,7 +95,7 @@ public class Xbox extends AbstractControl {
   }
 
   @Override
-  public Boolean getLoad() {
+  public Boolean getTwerk() {
     return drivebox.getRawButton(1);
   }
 }

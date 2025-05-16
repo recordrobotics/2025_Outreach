@@ -18,7 +18,7 @@ public abstract class AbstractControl {
 
   public abstract Boolean getReverse();
 
-  public abstract Boolean getLoad();
+  public abstract Boolean getTwerk();
 
   // Orient XY
   public static Pair<Double, Double> OrientXY(Pair<Double, Double> input) {
