@@ -22,13 +22,11 @@ public final class Constants {
   // =========================
   // ID
   // =========================
-                              // PLUG IN XBOX FIRST AND THEN JOYSTICK
+  // PLUG IN XBOX FIRST AND THEN JOYSTICK
   public final class ID {
     public static final int driveboxID = 0;
     public static final int joystickID = 1;
   }
-  
-
 
   public final class Shooter {
     public static final double SPEAKER_SPEED = .7;

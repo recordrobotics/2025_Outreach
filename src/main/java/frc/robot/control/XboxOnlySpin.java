@@ -23,11 +23,7 @@ public class XboxOnlySpin extends AbstractControl {
   @Override
   public DriveCommandData getDriveCommandData() {
 
-    Translation3d xyr =
-        new Translation3d(
-            0,
-            0,
-            (-getSpin()) * getSpinSpeedLevel());
+    Translation3d xyr = new Translation3d(0, 0, (-getSpin()) * getSpinSpeedLevel());
     var xy = MathUtil.slewRateLimit(currentXYR.toTranslation2d(), xyr.toTranslation2d(), 0.02, 2.0);
     var r =
         MathUtil.slewRateLimit(
@@ -42,7 +38,6 @@ public class XboxOnlySpin extends AbstractControl {
     // Returns
     return driveCommandData;
   }
-
 
   public Double getSpin() {
     return SimpleMath.ApplyThresholdAndSensitivity(
