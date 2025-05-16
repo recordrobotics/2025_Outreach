@@ -18,6 +18,18 @@ import frc.robot.utils.ModuleConstants.MotorType;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+
+  // =========================
+  // ID
+  // =========================
+                              // PLUG IN XBOX FIRST AND THEN JOYSTICK
+  public final class ID {
+    public static final int driveboxID = 0;
+    public static final int joystickID = 1;
+  }
+  
+
+
   public final class Shooter {
     public static final double SPEAKER_SPEED = .7;
     public static final double AMP_SPEED = 0.25;

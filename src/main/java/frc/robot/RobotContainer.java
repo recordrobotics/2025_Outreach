@@ -11,6 +11,8 @@ import frc.robot.control.*;
 import frc.robot.shuffleboard.ShuffleboardUI;
 import frc.robot.subsystems.*;
 
+import frc.robot.Constants.ID;
+
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -31,7 +33,12 @@ public class RobotContainer {
     _shooter = new Shooter();
 
     // Sets up Control scheme chooser
-    ShuffleboardUI.Overview.addControls(new Xbox(0), new JoystickController(1));
+    ShuffleboardUI.Overview.addControls(
+      new Xbox(Constants.ID.driveboxID),
+      new XboxOnlySpin(Constants.ID.driveboxID), 
+      new JoystickController(Constants.ID.joystickID), 
+      new XboxStick(Constants.ID.driveboxID, Constants.ID.joystickID),
+      new XboxStickOnlySpin(Constants.ID.driveboxID, Constants.ID.joystickID));
 
     // Bindings and Teleop
     configureButtonBindings();
