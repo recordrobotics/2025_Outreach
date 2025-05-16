@@ -8,7 +8,6 @@ import frc.robot.commands.KillSpecified;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Shooter.ShooterStates;
 
-
 public class Shoot extends SequentialCommandGroup {
 
   private static Shooter _shooter;
