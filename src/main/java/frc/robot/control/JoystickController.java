@@ -80,7 +80,7 @@ public class JoystickController extends AbstractControl {
   }
 
   @Override
-  public Boolean getLoad() {
+  public Boolean getTwerk() {
     return drivestick.getRawButton(3)
         || drivestick.getRawButton(4)
         || drivestick.getRawButton(5)

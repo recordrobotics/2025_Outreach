@@ -114,7 +114,7 @@ public class XboxStick extends AbstractControl {
   }
 
   @Override
-  public Boolean getLoad() {
+  public Boolean getTwerk() {
     return drivebox.getRawButton(1)
         || joystick.getRawButton(3)
         || joystick.getRawButton(4)
