@@ -115,10 +115,10 @@ public class XboxStickOnlySpin extends AbstractControl {
 
   @Override
   public Boolean getTwerk() {
-    return false
+    return false; /*
         || joystick.getRawButton(3)
         || joystick.getRawButton(4)
         || joystick.getRawButton(5)
-        || joystick.getRawButton(6); // drivebox.getRawButton(1)
+        || joystick.getRawButton(6); */ // drivebox.getRawButton(1)
   }
 }
