@@ -36,8 +36,7 @@ public class RobotContainer {
         new XboxOnlySpin(Constants.ID.driveboxID),
         new JoystickController(Constants.ID.joystickID),
         new XboxStick(Constants.ID.driveboxID, Constants.ID.joystickID),
-        new XboxStickOnlySpin(Constants.ID.driveboxID, Constants.ID.joystickID)
-        );
+        new XboxStickOnlySpin(Constants.ID.driveboxID, Constants.ID.joystickID));
 
     // Bindings and Teleop
     configureButtonBindings();

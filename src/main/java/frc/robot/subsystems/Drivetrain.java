@@ -63,7 +63,10 @@ public class Drivetrain extends KillableSubsystem {
   }
 
   @Override
-  public void periodic() {}
+  public void periodic() {
+    m_left.update();
+    m_right.update();
+  }
 
   /** Resets the field relative position of the robot (mostly for testing). */
   public void resetStartingPose() {
