@@ -24,6 +24,7 @@ public class DifferentialModule {
 
   private final double DRIVE_GEAR_RATIO;
   private final double WHEEL_DIAMETER;
+  public double speedMetersPerSecond;
 
   /**
    * Constructs a SwerveModule with a drive motor, turning motor, and absolute turning encoder.
@@ -117,6 +118,10 @@ public class DifferentialModule {
   public void setDesiredState(double speedMetersPerSecond) {
     // Calculate the drive output from the drive PID controller then set drive
     // motor.
+    this.speedMetersPerSecond = speedMetersPerSecond;
+  }
+
+  public void update() {
     double driveOutput =
         drivePIDController.calculate(getDriveWheelVelocity(), speedMetersPerSecond);
     double driveFeedforwardOutput = driveFeedForward.calculate(speedMetersPerSecond);
