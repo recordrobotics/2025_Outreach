@@ -81,9 +81,9 @@ public class JoystickController extends AbstractControl {
 
   @Override
   public Boolean getTwerk() {
-    return drivestick.getRawButton(3)
+    return false; /*drivestick.getRawButton(3)
         || drivestick.getRawButton(4)
         || drivestick.getRawButton(5)
-        || drivestick.getRawButton(6);
+        || drivestick.getRawButton(6);*/
   }
 }
