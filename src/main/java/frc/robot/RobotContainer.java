@@ -67,8 +67,8 @@ public class RobotContainer {
         .toggleOnTrue(new Reverse(_shooter));
     new Trigger(() -> ShuffleboardUI.Overview.getControl().getShoot())
         .toggleOnTrue(new Shoot(_shooter));
-    // new Trigger(() -> ShuffleboardUI.Overview.getControl().getTwerk())
-    //     .toggleOnTrue(new RobotTwerk(_drivetrain));
+    new Trigger(() -> ShuffleboardUI.Overview.getControl().getTwerk())
+        .toggleOnTrue(new RobotTwerk(_drivetrain));
   }
 
   /**
