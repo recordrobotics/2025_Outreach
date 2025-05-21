@@ -21,7 +21,7 @@ public class RobotTwerk extends SequentialCommandGroup {
   /** Number of seconds it takes to shoot once the flywheel h as been spun up */
   private final double TwerkTime = Constants.Twerk.TWERK_TIME;
 
-  private double TwerkSpeed = Constants.Twerk.TWERK_SPEED; // meters
+  // private double TwerkSpeed = Constants.Twerk.TWERK_SPEED; // meters
   private final int RepeatTime = Constants.Twerk.REPEATS;
 
   /**
@@ -36,7 +36,13 @@ public class RobotTwerk extends SequentialCommandGroup {
 
     final Runnable killSpecified = () -> new KillSpecified(_drivetrain);
     for (int i = 0; i < RepeatTime * 2; i++) {
-      TwerkSpeed = -TwerkSpeed;
+      double TwerkSpeed;
+      if (i % 2 == 0) {
+        TwerkSpeed = Constants.Twerk.TWERK_SPEED;
+      } else {
+        TwerkSpeed = -Constants.Twerk.TWERK_SPEED;
+      }
+      // TwerkSpeed = -TwerkSpeed;
       addCommands(
           new InstantCommand(
                   () -> _drivetrain.drive(new DriveCommandData(TwerkSpeed, 0, 0, false)),
