@@ -5,13 +5,17 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.shuffleboard.ShuffleboardUI;
 import frc.robot.subsystems.io.DifferentialModuleIO;
 import frc.robot.utils.ModuleConstants;
+import frc.robot.Constants;
 
-public class DifferentialModule {
+public class DifferentialModule extends KillableSubsystem {
+  public final DifferentialModuleIO io;
 
   private static double[] graph = new double[4];
 
@@ -19,12 +23,22 @@ public class DifferentialModule {
   private final SparkMax m_driveMotor;
   private final SparkMax m_driveMotorFollower;
 
-  private final PIDController drivePIDController;
-  private final SimpleMotorFeedforward driveFeedForward;
-
   private final double DRIVE_GEAR_RATIO;
   private final double WHEEL_DIAMETER;
   public double speedMetersPerSecond;
+
+
+      // Creates PID Controllers
+      private final PIDController drivePIDController =
+      new PIDController(
+          Constants.Differential.NEO_KP,
+          Constants.Differential.NEO_KI,
+          Constants.Differential.NEO_KD,
+          new TrapezoidProfile.Constraints(
+              Constants.Differential.DriveMaxAngularVelocity, Constants.Differential.DriveMaxAngularAcceleration));
+
+      private final SimpleMotorFeedforward driveFeedForward =
+      new SimpleMotorFeedforward(Constants.Differential.KRAKEN_DRIVE_FEEDFORWARD_KS, Constants.Differential.KRAKEN_DRIVE_FEEDFORWARD_KV);
 
   /**
    * Constructs a SwerveModule with a drive motor, turning motor, and absolute turning encoder.
@@ -33,6 +47,7 @@ public class DifferentialModule {
    *     module. Look at ModuleConstants.java for what variables are contained
    */
   public DifferentialModule(DifferentialModuleIO io) {
+
     // Creates TalonFX objects
     m_driveMotor = new SparkMax(m.driveMotorChannel, MotorType.kBrushless);
     m_driveMotorFollower = new SparkMax(m.driveMotorFollowerChannel, MotorType.kBrushless);
@@ -57,14 +72,9 @@ public class DifferentialModule {
     // Sets motor speeds to 0
     m_driveMotor.set(0);
 
-    // Creates PID Controllers
-    this.drivePIDController = new PIDController(m.DRIVE_KP, m.DRIVE_KI, m.DRIVE_KD);
-
-    this.driveFeedForward =
-        new SimpleMotorFeedforward(m.DRIVE_FEEDFORWARD_KS, m.DRIVE_FEEDFORWARD_KV);
 
     // Sets up shuffleboard
-    setupShuffleboard(m.driveMotorChannel);
+    //  setupShuffleboard(m.driveMotorChannel);
   }
 
   /**
@@ -143,5 +153,10 @@ public class DifferentialModule {
   private void setupShuffleboard(double driveMotorChannel) {
     ShuffleboardUI.Test.addSlider("Drive " + driveMotorChannel, m_driveMotor.get(), -1, 1)
         .subscribe(m_driveMotor::set);
+  }
+
+  @Override
+  public void kill() {
+    m_driveMotor.setVoltage(0);
   }
 }
