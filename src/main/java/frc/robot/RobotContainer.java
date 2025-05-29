@@ -30,11 +30,11 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
 
-    if (Constants.RobotState.getMode() == Mode.REAL) {
-      m_differentialmodule = new DifferentialModule(new DifferentialModuleReal());
-    } else {
+    // if (Constants.RobotState.getMode() == Mode.REAL) {
+    //   m_differentialmodule = new DifferentialModule(new DifferentialModuleReal());
+    // } else {
 
-    }
+    // }
 
     // Init subsystems
     _drivetrain = new Drivetrain();

@@ -1,6 +1,7 @@
 package frc.robot.subsystems.io.stub;
 
 import frc.robot.subsystems.io.DifferentialModuleIO;
+import frc.robot.utils.ModuleConstants;
 
 
 public class DifferentialModuleStub implements DifferentialModuleIO {

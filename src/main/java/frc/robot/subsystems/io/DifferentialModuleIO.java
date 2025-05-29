@@ -4,7 +4,6 @@ package frc.robot.subsystems.io;
 
 public interface DifferentialModuleIO extends AutoCloseable {
 
-
   public double getDriveWheelVelocity();
 
   public double getModuleState();

@@ -26,11 +26,16 @@ public class Drivetrain extends KillableSubsystem {
   // Init drivetrain
   public Drivetrain() {
     if (Constants.RobotState.getMode() == Mode.REAL) {
+      DifferentialModuleReal m_left_real = new DifferentialModuleReal(0.2);
       m_left =
-      new DifferentialModule(new DifferentialModuleReal(Constants.Differential.leftConstants));
+      new DifferentialModule(m_left_real);
+      DifferentialModuleReal m_right_real = new DifferentialModuleReal(0.2);
       m_right =
-      new DifferentialModule(new DifferentialModuleReal(Constants.Differential.rightConstants));
-
+      new DifferentialModule(m_right_real);
+      m_left.side = "left";
+      m_left_real.side = "left";
+      m_right.side = "right";
+      m_right_real.side = "right";
   } else {
 
   }

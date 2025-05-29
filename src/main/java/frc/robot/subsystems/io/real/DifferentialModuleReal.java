@@ -9,30 +9,42 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.shuffleboard.ShuffleboardUI;
+import frc.robot.subsystems.io.DifferentialModuleIO;
 import frc.robot.utils.ModuleConstants;
-
-public class DifferentialModuleReal {
-
+import frc.robot.Constants;
+public class DifferentialModuleReal implements DifferentialModuleIO {
+  public String side;
   private static double[] graph = new double[4];
 
   // Creates variables for motors and absolute encoders
   private final SparkMax m_driveMotor;
   private final SparkMax m_driveMotorFollower;
 
-  private final ProfiledPIDController drivePIDController;
-  private final SimpleMotorFeedforward driveFeedForward;
+  // private final ProfiledPIDController drivePIDController;
+  // private final SimpleMotorFeedforward driveFeedForward;
 
   private final double DRIVE_GEAR_RATIO;
   private final double WHEEL_DIAMETER;
 
-  /**
-   * Constructs a SwerveModule with a drive motor, turning motor, and absolute turning encoder.
-   *
-   * @param m - a ModuleConstants object that contains all constants relevant for creating a swerve
-   *     module. Look at ModuleConstants.java for what variables are contained
-      * @return 
-      */
-     public DifferentialModuleReal(ModuleConstants m) {
+  @SuppressWarnings("unused")
+    private double periodicDt;
+  
+    /**
+     * Constructs a SwerveModule with a drive motor, turning motor, and absolute turning encoder.
+     *
+     * @param m - a ModuleConstants object that contains all constants relevant for creating a swerve
+     *     module. Look at ModuleConstants.java for what variables are contained
+        * @return 
+        */
+
+
+
+
+
+       public DifferentialModuleReal(double PeriodicDt) {
+        this.periodicDt = PeriodicDt;
+        ModuleConstants m = side();
+
     // Creates TalonFX objects
     m_driveMotor = new SparkMax(m.driveMotorChannel, MotorType.kBrushless);
     m_driveMotorFollower = new SparkMax(m.driveMotorFollowerChannel, MotorType.kBrushless);
@@ -44,9 +56,11 @@ public class DifferentialModuleReal {
         followerConfig,
         SparkBase.ResetMode.kResetSafeParameters,
         SparkBase.PersistMode.kPersistParameters);
-    // m_driveMotorFollower.addFollower(m_driveMotor);
-    // m_driveMotor.setInverted(m.inverted);
-
+        m_driveMotorFollower.configure(
+          followerConfig,
+          SparkBase.ResetMode.kResetSafeParameters,
+          SparkBase.PersistMode.kPersistParameters);
+  
     // Creates other variables
     this.DRIVE_GEAR_RATIO = m.DRIVE_GEAR_RATIO;
     this.WHEEL_DIAMETER = m.WHEEL_DIAMETER;
@@ -57,26 +71,20 @@ public class DifferentialModuleReal {
     // Sets motor speeds to 0
     m_driveMotor.set(0);
 
-    // Creates PID Controllers
-    this.drivePIDController =
-        new ProfiledPIDController(
-            m.DRIVE_KP,
-            m.DRIVE_KI,
-            m.DRIVE_KD,
-            new TrapezoidProfile.Constraints(
-                m.DriveMaxAngularVelocity, m.DriveMaxAngularAcceleration));
-
-    this.driveFeedForward =
-        new SimpleMotorFeedforward(m.DRIVE_FEEDFORWARD_KS, m.DRIVE_FEEDFORWARD_KV);
-
-    // Sets up shuffleboard
-    setupShuffleboard(m.driveMotorChannel);
   }
 
-  /**
-   * @return The current velocity of the drive motor (meters per second)
-   */
-  private double getDriveWheelVelocity() {
+    ModuleConstants side() {
+    if (side.equals("left")) {
+      return Constants.Differential.leftConstants;
+    } else if (side.equals("right")) {
+      return Constants.Differential.rightConstants;
+    } else {
+      throw new IllegalArgumentException("Invalid side: " + side);
+    }
+  }
+
+  @Override
+  public double getDriveWheelVelocity() {
     // Convert motor velocity from RPM to rotations per second (RPS)
     double motorRPM = m_driveMotor.getEncoder().getVelocity(); // Use motor encoder to get RPM
     double motorRPS = motorRPM / 60.0; // divide by 60 seconds per minute to get RPS
@@ -113,16 +121,6 @@ public class DifferentialModuleReal {
    * @param desiredState Desired state with speed and angle.
    */
   public void setDesiredState(double speedMetersPerSecond) {
-    // Calculate the drive output from the drive PID controller then set drive
-    // motor.
-    double driveOutput =
-        drivePIDController.calculate(getDriveWheelVelocity(), speedMetersPerSecond);
-    double driveFeedforwardOutput = driveFeedForward.calculate(speedMetersPerSecond);
-    m_driveMotor.setVoltage(driveOutput + driveFeedforwardOutput);
-
-    // graph[m_driveMotor.getDeviceId() == 2 ? 0 : 2] = speedMetersPerSecond;
-
-    SmartDashboard.putNumberArray("drive", graph);
   }
 
   public void stop() {
@@ -130,9 +128,17 @@ public class DifferentialModuleReal {
   }
 
   // SHUFFLEBOARD STUFF
-
-  private void setupShuffleboard(double driveMotorChannel) {
+  @Override
+  public void setupShuffleboard(double driveMotorChannel) {
     ShuffleboardUI.Test.addSlider("Drive " + driveMotorChannel, m_driveMotor.get(), -1, 1)
         .subscribe(m_driveMotor::set);
   }
+
+
+  @Override
+  public void simulationPeriodic() {}
+
+
+  @Override
+  public void close() throws Exception {}
 }

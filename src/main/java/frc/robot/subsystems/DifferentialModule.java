@@ -16,6 +16,7 @@ import frc.robot.Constants;
 
 public class DifferentialModule extends KillableSubsystem {
   public final DifferentialModuleIO io;
+  public String side;
 
   private static double[] graph = new double[4];
 
@@ -33,12 +34,10 @@ public class DifferentialModule extends KillableSubsystem {
       new PIDController(
           Constants.Differential.NEO_KP,
           Constants.Differential.NEO_KI,
-          Constants.Differential.NEO_KD,
-          new TrapezoidProfile.Constraints(
-              Constants.Differential.DriveMaxAngularVelocity, Constants.Differential.DriveMaxAngularAcceleration));
+          Constants.Differential.NEO_KD);
 
       private final SimpleMotorFeedforward driveFeedForward =
-      new SimpleMotorFeedforward(Constants.Differential.KRAKEN_DRIVE_FEEDFORWARD_KS, Constants.Differential.KRAKEN_DRIVE_FEEDFORWARD_KV);
+      new SimpleMotorFeedforward(Constants.Differential.NEO_FEEDFORWARD_KS, Constants.Differential.NEO_FEEDFORWARD_KV);
 
   /**
    * Constructs a SwerveModule with a drive motor, turning motor, and absolute turning encoder.
@@ -47,27 +46,26 @@ public class DifferentialModule extends KillableSubsystem {
    *     module. Look at ModuleConstants.java for what variables are contained
    */
   public DifferentialModule(DifferentialModuleIO io) {
+        this.io = io;
+        ModuleConstants m = side();
+        
+        SparkMaxConfig followerConfig = new SparkMaxConfig();
+        followerConfig.follow(m_driveMotor).inverted(false);
 
-    // Creates TalonFX objects
-    m_driveMotor = new SparkMax(m.driveMotorChannel, MotorType.kBrushless);
-    m_driveMotorFollower = new SparkMax(m.driveMotorFollowerChannel, MotorType.kBrushless);
+          m_driveMotor.configure(
+              new SparkMaxConfig().inverted(m.inverted),
+              SparkBase.ResetMode.kResetSafeParameters,
+              SparkBase.PersistMode.kPersistParameters);
 
-    SparkMaxConfig followerConfig = new SparkMaxConfig();
-    followerConfig.follow(m_driveMotor).inverted(false);
+          m_driveMotorFollower.configure(
+              followerConfig,
+              SparkBase.ResetMode.kResetSafeParameters,
+              SparkBase.PersistMode.kPersistParameters);
+      
 
-    m_driveMotor.configure(
-        new SparkMaxConfig().inverted(m.inverted),
-        SparkBase.ResetMode.kResetSafeParameters,
-        SparkBase.PersistMode.kPersistParameters);
+          this.DRIVE_GEAR_RATIO = m.DRIVE_GEAR_RATIO;
+          this.WHEEL_DIAMETER = m.WHEEL_DIAMETER;
 
-    m_driveMotorFollower.configure(
-        followerConfig,
-        SparkBase.ResetMode.kResetSafeParameters,
-        SparkBase.PersistMode.kPersistParameters);
-
-    // Creates other variables
-    this.DRIVE_GEAR_RATIO = m.DRIVE_GEAR_RATIO;
-    this.WHEEL_DIAMETER = m.WHEEL_DIAMETER;
 
     // Sets motor speeds to 0
     m_driveMotor.set(0);
@@ -75,6 +73,16 @@ public class DifferentialModule extends KillableSubsystem {
 
     // Sets up shuffleboard
     //  setupShuffleboard(m.driveMotorChannel);
+  }
+
+  ModuleConstants side() {
+    if (side.equals("left")) {
+      return Constants.Differential.leftConstants;
+    } else if (side.equals("right")) {
+      return Constants.Differential.rightConstants;
+    } else {
+      throw new IllegalArgumentException("Invalid side: " + side);
+    }
   }
 
   /**
@@ -125,12 +133,12 @@ public class DifferentialModule extends KillableSubsystem {
    *
    * @param desiredState Desired state with speed and angle.
    */
+
   public void setDesiredState(double speedMetersPerSecond) {
     // Calculate the drive output from the drive PID controller then set drive
     // motor.
     this.speedMetersPerSecond = speedMetersPerSecond;
   }
-
   public void update() {
     double driveOutput =
         drivePIDController.calculate(getDriveWheelVelocity(), speedMetersPerSecond);
