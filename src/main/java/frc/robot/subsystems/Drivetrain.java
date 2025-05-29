@@ -31,12 +31,8 @@ public class Drivetrain extends KillableSubsystem {
     // } else {
 
     // }
-    DifferentialModuleReal m_left_real = DifferentialModuleReal.create(0.2, "left");
-    // m_left_real.setSide("left");
-    m_left = DifferentialModule.create(m_left_real, "left");
-    DifferentialModuleReal m_right_real = DifferentialModuleReal.create(0.2, "right");
-    // m_right_real.setSide("right");
-    m_right = DifferentialModule.create(m_right_real, "right");
+      m_left = new DifferentialModule(new DifferentialModuleReal(0.2, Constants.Differential.leftConstants), Constants.Differential.leftConstants);
+      m_right = new DifferentialModule(new DifferentialModuleReal(0.2, Constants.Differential.rightConstants), Constants.Differential.rightConstants);
   }
 
   /**

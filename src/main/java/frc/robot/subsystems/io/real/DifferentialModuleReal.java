@@ -11,27 +11,9 @@ import frc.robot.subsystems.io.DifferentialModuleIO;
 import frc.robot.utils.ModuleConstants;
 
 public class DifferentialModuleReal implements DifferentialModuleIO {
-  public String side;
 
-  public void setSide(String side) {
-      this.side = side;
-  }
+  private static double[] graph = new double[4];
 
-  public String getSide() {
-      return side;
-  }
-    private static double[] graph = new double[4];
-
-    ModuleConstants side() {
-      if (side=="left") {
-        return Constants.Differential.leftConstants;
-      } else if (side=="right") {
-        return Constants.Differential.rightConstants;
-      } else {
-        throw new IllegalArgumentException("Invalid side: " + side);
-      }
-    }
-  
   // Creates variables for motors and absolute encoders
   private final SparkMax m_driveMotor;
   private final SparkMax m_driveMotorFollower;
@@ -53,15 +35,10 @@ public class DifferentialModuleReal implements DifferentialModuleIO {
    * @return
    */
 
-   public static DifferentialModuleReal create(double PeriodicDt, String side) {
-    DifferentialModuleReal module = new DifferentialModuleReal(PeriodicDt);
-    module.setSide(side);
-    return module;
-  }
 
-  public DifferentialModuleReal(double PeriodicDt) {
+
+  public DifferentialModuleReal(double PeriodicDt, ModuleConstants m) {
     this.periodicDt = PeriodicDt;
-    ModuleConstants m = side();
 
     // Creates TalonFX objects
     m_driveMotor = new SparkMax(m.driveMotorChannel, MotorType.kBrushless);
@@ -147,19 +124,19 @@ public class DifferentialModuleReal implements DifferentialModuleIO {
     return wheelMeters;
   }
 
-  @Override
-  public void update(double driveOutput) {
-    // Set the motor output based on the calculated drive output
-    m_driveMotor.setVoltage(driveOutput);
-    m_driveMotorFollower.setVoltage(driveOutput);
+  // @Override
+  // public void update(double driveOutput) {
+  //   // Set the motor output based on the calculated drive output
+  //   m_driveMotor.setVoltage(driveOutput);
+  //   m_driveMotorFollower.setVoltage(driveOutput);
 
-    // Update graph with the current wheel velocity
-    int graphIndex = (m_driveMotor.getDeviceId() == 2) ? 0 : 2;
-    graph[graphIndex] = getDriveWheelVelocity();
+  //   // Update graph with the current wheel velocity
+  //   int graphIndex = (m_driveMotor.getDeviceId() == 2) ? 0 : 2;
+  //   graph[graphIndex] = getDriveWheelVelocity();
 
-    // Log the current state to SmartDashboard for debugging
-    SmartDashboard.putNumber("Drive Motor " + side + " Velocity", getDriveWheelVelocity());
-  }
+  //   // Log the current state to SmartDashboard for debugging
+  //   SmartDashboard.putNumber("Drive Motor " + side + " Velocity", getDriveWheelVelocity());
+  // }
 
   @Override
   public void stop() {
@@ -174,15 +151,21 @@ public class DifferentialModuleReal implements DifferentialModuleIO {
   }
 
   @Override
-  public void update(double driveOutput, double driveFeedforwardOutput) {
-    ShuffleboardUI.Test.addSlider(
-            "Drive " + (driveOutput + driveFeedforwardOutput), m_driveMotor.get(), -1, 1)
-        .subscribe(m_driveMotor::set);
+  public void update(double driveOutput, double speedMetersPerSecond, double driveFeedforwardOutput) {
+    m_driveMotor.setVoltage(driveOutput + driveFeedforwardOutput);
+
+    graph[m_driveMotor.getDeviceId() == 2 ? 0 : 2] = speedMetersPerSecond;
+
+    SmartDashboard.putNumber("pos_" + m_driveMotor.getDeviceId(), getDriveWheelPosition());
+
+    SmartDashboard.putNumberArray("drive", graph);
   }
 
   @Override
   public void simulationPeriodic() {}
 
   @Override
-  public void close() throws Exception {}
+  public void close() throws Exception {} 
+
+
 }

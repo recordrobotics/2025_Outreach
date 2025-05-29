@@ -9,15 +9,7 @@ import frc.robot.utils.ModuleConstants;
 
 public class DifferentialModule extends KillableSubsystem {
   public final DifferentialModuleIO io;
-  public String side;
 
-  public void setSide(String side) {
-    this.side = side;
-}
-
-public String getSide() {
-    return side;
-}
   private static double[] graph = new double[4];
 
   // // Creates variables for motors and absolute encoders
@@ -40,20 +32,14 @@ public String getSide() {
           Constants.Differential.NEO_FEEDFORWARD_KS, Constants.Differential.NEO_FEEDFORWARD_KV);
 
 
-    public static DifferentialModule create(DifferentialModuleIO io, String side) {
-        DifferentialModule module = new DifferentialModule(io);
-        module.setSide(side);
-        return module;
-    }
   /**
    * Constructs a SwerveModule with a drive motor, turning motor, and absolute turning encoder.
    *
    * @param m - a ModuleConstants object that contains all constants relevant for creating a swerve
    *     module. Look at ModuleConstants.java for what variables are contained
    */
-  public DifferentialModule(DifferentialModuleIO io) {
+  public DifferentialModule(DifferentialModuleIO io, ModuleConstants m) {
     this.io = io;
-    ModuleConstants m = side();
 
     this.DRIVE_GEAR_RATIO = m.DRIVE_GEAR_RATIO;
     this.WHEEL_DIAMETER = m.WHEEL_DIAMETER;
@@ -62,15 +48,6 @@ public String getSide() {
     //  setupShuffleboard(m.driveMotorChannel);
   }
 
-  ModuleConstants side() {
-    if (side=="left") {
-      return Constants.Differential.leftConstants;
-    } else if (side=="right") {
-      return Constants.Differential.rightConstants;
-    } else {
-      throw new IllegalArgumentException("Invalid side: " + side);
-    }
-  }
 
   /**
    * @return The current velocity of the drive motor (meters per second)
@@ -112,7 +89,7 @@ public String getSide() {
     double driveOutput =
         drivePIDController.calculate(getDriveWheelVelocity(), speedMetersPerSecond);
     double driveFeedforwardOutput = driveFeedForward.calculate(speedMetersPerSecond);
-    io.update(driveOutput, driveFeedforwardOutput);
+    io.update(driveOutput+driveFeedforwardOutput,speedMetersPerSecond,driveFeedforwardOutput);
   }
 
   public void stop() {

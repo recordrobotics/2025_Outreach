@@ -1,10 +1,6 @@
 package frc.robot.subsystems.io;
 
 public interface DifferentialModuleIO extends AutoCloseable {
-  public String side = "";
-  public String getSide();
-
-  public void setSide(String side);
 
   public double getDriveWheelVelocity();
 
@@ -22,9 +18,9 @@ public interface DifferentialModuleIO extends AutoCloseable {
 
   public double getDriveWheelPosition();
 
-  public void update(double driveOutput);
+  // public void update(double driveOutput);
 
   public void kill();
 
-  public void update(double driveOutput, double driveFeedforwardOutput);
+  public void update(double driveOutput, double speedMetersPerSecond, double driveFeedforwardOutput);
 }

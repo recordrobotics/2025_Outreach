@@ -44,18 +44,13 @@ public class DifferentialModuleStub implements DifferentialModuleIO {
     return 0;
   }
 
-  @Override
-  public void update(double driveMotorChannel) {}
+  // @Override
+  // public void update(double driveMotorChannel) {}
 
   @Override
   public void kill() {}
 
   @Override
-  public void update(double driveOutput, double driveFeedforwardOutput) {}
+  public void update(double driveOutput, double speedMetersPerSecond, double driveFeedforwardOutput) {}
 
-  @Override
-  public String getSide() {return "";}
-
-  @Override
-  public void setSide(String side) {}
 }
