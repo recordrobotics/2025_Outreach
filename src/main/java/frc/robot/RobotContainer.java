@@ -5,14 +5,11 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.Constants.RobotState.Mode;
 // Local imports
 import frc.robot.commands.manual.*;
 import frc.robot.control.*;
 import frc.robot.shuffleboard.ShuffleboardUI;
 import frc.robot.subsystems.*;
-import frc.robot.subsystems.io.real.DifferentialModuleReal;
-
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a

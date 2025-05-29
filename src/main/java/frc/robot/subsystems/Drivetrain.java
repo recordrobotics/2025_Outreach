@@ -23,22 +23,20 @@ public class Drivetrain extends KillableSubsystem {
   //     new DifferentialModuleReal(Constants.Differential.rightConstants);
   public static DifferentialModule m_left;
   public static DifferentialModule m_right;
+
   // Init drivetrain
   public Drivetrain() {
-    if (Constants.RobotState.getMode() == Mode.REAL) {
-      DifferentialModuleReal m_left_real = new DifferentialModuleReal(0.2);
-      m_left =
-      new DifferentialModule(m_left_real);
-      DifferentialModuleReal m_right_real = new DifferentialModuleReal(0.2);
-      m_right =
-      new DifferentialModule(m_right_real);
-      m_left.side = "left";
-      m_left_real.side = "left";
-      m_right.side = "right";
-      m_right_real.side = "right";
-  } else {
+    // if (Constants.RobotState.getMode() == Mode.REAL) {
 
-  }
+    // } else {
+
+    // }
+    DifferentialModuleReal m_left_real = DifferentialModuleReal.create(0.2, "left");
+    // m_left_real.setSide("left");
+    m_left = DifferentialModule.create(m_left_real, "left");
+    DifferentialModuleReal m_right_real = DifferentialModuleReal.create(0.2, "right");
+    // m_right_real.setSide("right");
+    m_right = DifferentialModule.create(m_right_real, "right");
   }
 
   /**
