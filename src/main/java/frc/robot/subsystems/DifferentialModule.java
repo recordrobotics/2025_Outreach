@@ -4,7 +4,6 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import frc.robot.Constants;
 import frc.robot.subsystems.io.DifferentialModuleIO;
-import frc.robot.subsystems.io.real.DifferentialModuleReal;
 import frc.robot.utils.ModuleConstants;
 
 public class DifferentialModule extends KillableSubsystem {
@@ -31,7 +30,6 @@ public class DifferentialModule extends KillableSubsystem {
       new SimpleMotorFeedforward(
           Constants.Differential.NEO_FEEDFORWARD_KS, Constants.Differential.NEO_FEEDFORWARD_KV);
 
-
   /**
    * Constructs a SwerveModule with a drive motor, turning motor, and absolute turning encoder.
    *
@@ -48,11 +46,10 @@ public class DifferentialModule extends KillableSubsystem {
     //  setupShuffleboard(m.driveMotorChannel);
   }
 
-
   /**
    * @return The current velocity of the drive motor (meters per second)
    */
-  private double getDriveWheelVelocity() {
+  public double getDriveWheelVelocity() {
     return io.getDriveWheelVelocity();
   }
 
@@ -89,7 +86,7 @@ public class DifferentialModule extends KillableSubsystem {
     double driveOutput =
         drivePIDController.calculate(getDriveWheelVelocity(), speedMetersPerSecond);
     double driveFeedforwardOutput = driveFeedForward.calculate(speedMetersPerSecond);
-    io.update(driveOutput+driveFeedforwardOutput,speedMetersPerSecond,driveFeedforwardOutput);
+    io.update(driveOutput + driveFeedforwardOutput, speedMetersPerSecond, driveFeedforwardOutput);
   }
 
   public void stop() {

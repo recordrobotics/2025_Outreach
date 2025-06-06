@@ -5,7 +5,6 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.Constants;
 import frc.robot.shuffleboard.ShuffleboardUI;
 import frc.robot.subsystems.io.DifferentialModuleIO;
 import frc.robot.utils.ModuleConstants;
@@ -23,6 +22,7 @@ public class DifferentialModuleReal implements DifferentialModuleIO {
 
   private final double DRIVE_GEAR_RATIO;
   private final double WHEEL_DIAMETER;
+  public double speedMetersPerSecond;
 
   @SuppressWarnings("unused")
   private double periodicDt;
@@ -34,9 +34,6 @@ public class DifferentialModuleReal implements DifferentialModuleIO {
    *     module. Look at ModuleConstants.java for what variables are contained
    * @return
    */
-
-
-
   public DifferentialModuleReal(double PeriodicDt, ModuleConstants m) {
     this.periodicDt = PeriodicDt;
 
@@ -66,7 +63,6 @@ public class DifferentialModuleReal implements DifferentialModuleIO {
     // Sets motor speeds to 0
     m_driveMotor.set(0);
   }
-
 
   @Override
   public double getDriveWheelVelocity() {
@@ -105,7 +101,9 @@ public class DifferentialModuleReal implements DifferentialModuleIO {
    *
    * @param desiredState Desired state with speed and angle.
    */
-  public void setDesiredState(double speedMetersPerSecond) {}
+  public void setDesiredState(double speedMetersPerSecond) {
+    this.speedMetersPerSecond = speedMetersPerSecond;
+  }
 
   // SHUFFLEBOARD STUFF
   @Override
@@ -151,7 +149,8 @@ public class DifferentialModuleReal implements DifferentialModuleIO {
   }
 
   @Override
-  public void update(double driveOutput, double speedMetersPerSecond, double driveFeedforwardOutput) {
+  public void update(
+      double driveOutput, double speedMetersPerSecond, double driveFeedforwardOutput) {
     m_driveMotor.setVoltage(driveOutput + driveFeedforwardOutput);
 
     graph[m_driveMotor.getDeviceId() == 2 ? 0 : 2] = speedMetersPerSecond;
@@ -165,7 +164,8 @@ public class DifferentialModuleReal implements DifferentialModuleIO {
   public void simulationPeriodic() {}
 
   @Override
-  public void close() throws Exception {} 
-
-
+  public void close() throws Exception {
+    m_driveMotor.close();
+    m_driveMotorFollower.close();
+  }
 }

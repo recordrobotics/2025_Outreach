@@ -51,6 +51,6 @@ public class DifferentialModuleStub implements DifferentialModuleIO {
   public void kill() {}
 
   @Override
-  public void update(double driveOutput, double speedMetersPerSecond, double driveFeedforwardOutput) {}
-
+  public void update(
+      double driveOutput, double speedMetersPerSecond, double driveFeedforwardOutput) {}
 }

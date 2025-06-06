@@ -22,5 +22,6 @@ public interface DifferentialModuleIO extends AutoCloseable {
 
   public void kill();
 
-  public void update(double driveOutput, double speedMetersPerSecond, double driveFeedforwardOutput);
+  public void update(
+      double driveOutput, double speedMetersPerSecond, double driveFeedforwardOutput);
 }
