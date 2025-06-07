@@ -19,7 +19,6 @@ import frc.robot.shuffleboard.ShuffleboardUI;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.io.DifferentialModuleIO;
 import frc.robot.utils.ModuleConstants;
-import org.ironmaple.simulation.drivesims.AbstractDriveTrainSimulation;
 
 public class DifferentialModuleSim implements DifferentialModuleIO, AutoCloseable {
 
@@ -47,8 +46,7 @@ public class DifferentialModuleSim implements DifferentialModuleIO, AutoCloseabl
   private final double WHEEL_DIAMETER;
   public double speedMetersPerSecond;
 
-  public DifferentialModuleSim(
-      double periodicDt, ModuleConstants m) {
+  public DifferentialModuleSim(double periodicDt, ModuleConstants m) {
     this.periodicDt = periodicDt;
     // this.drivetrainSim = drivetrainSim;
 

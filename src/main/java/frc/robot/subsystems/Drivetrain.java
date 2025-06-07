@@ -1,8 +1,5 @@
 package frc.robot.subsystems;
 
-import org.ironmaple.simulation.SimulatedArena;
-import org.ironmaple.simulation.drivesims.SwerveDriveSimulation;
-
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
@@ -31,24 +28,23 @@ public class Drivetrain extends KillableSubsystem {
   public Drivetrain() {
     if (Constants.RobotState.getMode() == Constants.RobotState.Mode.REAL) {
       m_left =
-      new DifferentialModule(
-          new DifferentialModuleReal(0.2, Constants.Differential.leftConstants),
-          Constants.Differential.leftConstants);
-  m_right =
-      new DifferentialModule(
-          new DifferentialModuleReal(0.2, Constants.Differential.rightConstants),
-          Constants.Differential.rightConstants);
+          new DifferentialModule(
+              new DifferentialModuleReal(0.2, Constants.Differential.leftConstants),
+              Constants.Differential.leftConstants);
+      m_right =
+          new DifferentialModule(
+              new DifferentialModuleReal(0.2, Constants.Differential.rightConstants),
+              Constants.Differential.rightConstants);
     } else {
       m_left =
-      new DifferentialModule(
-          new DifferentialModuleSim(0.2, Constants.Differential.leftConstants),
-          Constants.Differential.leftConstants);
-  m_right =
-      new DifferentialModule(
-          new DifferentialModuleSim(0.2, Constants.Differential.rightConstants),
-          Constants.Differential.rightConstants);
+          new DifferentialModule(
+              new DifferentialModuleSim(0.2, Constants.Differential.leftConstants),
+              Constants.Differential.leftConstants);
+      m_right =
+          new DifferentialModule(
+              new DifferentialModuleSim(0.2, Constants.Differential.rightConstants),
+              Constants.Differential.rightConstants);
     }
-
   }
 
   /**
