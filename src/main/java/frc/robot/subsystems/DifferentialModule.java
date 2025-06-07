@@ -53,7 +53,7 @@ public class DifferentialModule extends KillableSubsystem {
     return io.getDriveWheelVelocity();
   }
 
-  private double getDriveWheelPosition() {
+  public double getDriveWheelPosition() {
     return io.getDriveWheelPosition();
   }
 
@@ -103,4 +103,6 @@ public class DifferentialModule extends KillableSubsystem {
   public void kill() {
     io.kill();
   }
+
+
 }
