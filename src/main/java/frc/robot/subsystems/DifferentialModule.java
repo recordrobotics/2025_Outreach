@@ -103,6 +103,4 @@ public class DifferentialModule extends KillableSubsystem {
   public void kill() {
     io.kill();
   }
-
-
 }

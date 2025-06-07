@@ -1,4 +1,3 @@
-
 package frc.robot.subsystems.io;
 
 public interface NavSensorIO extends AutoCloseable {

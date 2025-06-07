@@ -22,19 +22,19 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here
   public static DifferentialModule m_differentialmodule;
   public static Drivetrain _drivetrain;
-    private final Shooter _shooter;
-  
-    /** The container for the robot. Contains subsystems, OI devices, and commands. */
-    public RobotContainer() {
-  
-      // if (Constants.RobotState.getMode() == Mode.REAL) {
-      //   m_differentialmodule = new DifferentialModule(new DifferentialModuleReal());
-      // } else {
-  
-      // }
-  
-      // Init subsystems
-      _drivetrain = new Drivetrain();
+  private final Shooter _shooter;
+
+  /** The container for the robot. Contains subsystems, OI devices, and commands. */
+  public RobotContainer() {
+
+    // if (Constants.RobotState.getMode() == Mode.REAL) {
+    //   m_differentialmodule = new DifferentialModule(new DifferentialModuleReal());
+    // } else {
+
+    // }
+
+    // Init subsystems
+    _drivetrain = new Drivetrain();
     _shooter = new Shooter();
 
     // Sets up Control scheme chooser
