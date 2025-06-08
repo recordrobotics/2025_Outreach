@@ -34,8 +34,8 @@ public class DifferentialModuleReal implements DifferentialModuleIO {
    *     module. Look at ModuleConstants.java for what variables are contained
    * @return
    */
-  public DifferentialModuleReal(double PeriodicDt, ModuleConstants m) {
-    this.periodicDt = PeriodicDt;
+  public DifferentialModuleReal(double periodicDt, ModuleConstants m) {
+    this.periodicDt = periodicDt;
 
     // Creates TalonFX objects
     m_driveMotor = new SparkMax(m.driveMotorChannel, MotorType.kBrushless);
