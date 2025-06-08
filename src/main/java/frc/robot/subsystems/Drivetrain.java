@@ -44,35 +44,29 @@ public class Drivetrain extends KillableSubsystem {
                 ? new NavSensorReal()
                 : new NavSensorSim());
 
-    if (Constants.RobotState.getMode() == Constants.RobotState.Mode.REAL) {
-      m_left =
-          new DifferentialModule(
-              new DifferentialModuleReal(0.2, Constants.Differential.leftConstants),
-              Constants.Differential.leftConstants);
-      m_right =
-          new DifferentialModule(
-              new DifferentialModuleReal(0.2, Constants.Differential.rightConstants),
-              Constants.Differential.rightConstants);
-    } else {
-      m_left =
-          new DifferentialModule(
-              new DifferentialModuleSim(0.2, Constants.Differential.leftConstants),
-              Constants.Differential.leftConstants);
-      m_right =
-          new DifferentialModule(
-              new DifferentialModuleSim(0.2, Constants.Differential.rightConstants),
-              Constants.Differential.rightConstants);
+    m_left =
+        new DifferentialModule(
+            Constants.RobotState.getMode() == Constants.RobotState.Mode.REAL
+                ? new DifferentialModuleReal(0.2, Constants.Differential.leftConstants)
+                : new DifferentialModuleSim(0.2, Constants.Differential.leftConstants),
+            Constants.Differential.leftConstants);
 
-      m_poseEstimator =
-          new DifferentialDrivePoseEstimator(
-              m_kinematics,
-              nav.getAdjustedAngle(),
-              m_left.getDriveWheelPosition(),
-              m_right.getDriveWheelPosition(),
-              new Pose2d(),
-              VecBuilder.fill(0.05, 0.05, Units.degreesToRadians(5)),
-              VecBuilder.fill(0.5, 0.5, Units.degreesToRadians(30)));
-    }
+    m_right =
+        new DifferentialModule(
+            Constants.RobotState.getMode() == Constants.RobotState.Mode.REAL
+                ? new DifferentialModuleReal(0.2, Constants.Differential.rightConstants)
+                : new DifferentialModuleSim(0.2, Constants.Differential.rightConstants),
+            Constants.Differential.rightConstants);
+
+    m_poseEstimator =
+        new DifferentialDrivePoseEstimator(
+            m_kinematics,
+            nav.getAdjustedAngle(),
+            m_left.getDriveWheelPosition(),
+            m_right.getDriveWheelPosition(),
+            new Pose2d(),
+            VecBuilder.fill(0.05, 0.05, Units.degreesToRadians(5)),
+            VecBuilder.fill(0.5, 0.5, Units.degreesToRadians(30)));
   }
 
   /**
