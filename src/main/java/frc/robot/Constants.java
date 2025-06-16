@@ -39,12 +39,10 @@ public final class Constants {
     // used variables
     public static final double SHOOT_TIME = .5;
 
-    // unused
-    // unused
-    // unused
-    public static final double SPEAKER_SPEED = .7;
-    public static final double AMP_SPEED = 0.25;
-    public static final double REVERSE_SPEED = -0.5;
+    // voltage values
+    // scale ~12
+    public static final double SPEAKER_VOLTAGE = 8;
+    public static final double REVERSE_VOLTAGE = -3;
   }
 
   // public final class Channel {

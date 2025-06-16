@@ -1,13 +1,14 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
+import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
 import frc.robot.shuffleboard.ShuffleboardUI;
 
 public class Shooter extends KillableSubsystem {
-  private Spark flywheel =
-      new Spark(RobotMap.Shooter.FLYWHEEL_MOTOR_DEVICE_ID); // old PWM Spark (confusing)
+  private Talon flywheel =
+      new Talon(RobotMap.Shooter.FLYWHEEL_MOTOR_DEVICE_ID); // old PWM Spark (confusing)
 
   public Shooter() {
     toggle(ShooterStates.OFF);
@@ -21,20 +22,17 @@ public class Shooter extends KillableSubsystem {
     OFF;
   }
 
-  public void toggle(double speed) {
-    flywheel.set(speed);
+  public void toggle(double volt) {
+    flywheel.setVoltage(volt);
   }
 
   public void toggle(ShooterStates state) {
     switch (state) {
       case SPEAKER:
-        toggle(Constants.Shooter.SPEAKER_SPEED);
-        break;
-      case AMP:
-        toggle(Constants.Shooter.AMP_SPEED);
+        toggle(Constants.Shooter.SPEAKER_VOLTAGE);
         break;
       case REVERSE:
-        toggle(Constants.Shooter.REVERSE_SPEED);
+        toggle(Constants.Shooter.REVERSE_VOLTAGE);
         break;
       default:
         toggle(0);
