@@ -44,7 +44,7 @@ public final class Constants {
 
     // voltage values
     // scale ~12
-    public static final double SPEAKER_VOLTAGE = 8;
+    public static final double SPEAKER_VOLTAGE = 12; // was 8
     public static final double REVERSE_VOLTAGE = -3;
 
             public static final Current SUPPLY_CURRENT_LIMIT = Amps.of(40);
