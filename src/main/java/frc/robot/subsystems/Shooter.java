@@ -1,17 +1,25 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
+import com.ctre.phoenix6.controls.VoltageOut;
+import com.ctre.phoenix6.hardware.TalonFX;
+
+// import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
 import frc.robot.shuffleboard.ShuffleboardUI;
 
 public class Shooter extends KillableSubsystem {
-  private Spark flywheel =
-      new Spark(RobotMap.Shooter.FLYWHEEL_MOTOR_DEVICE_ID); // old PWM Spark (confusing)
+  private TalonFX flywheel =
+      new TalonFX(RobotMap.Shooter.FLYWHEEL_MOTOR_DEVICE_ID); // changed to kraken
+        private final VoltageOut voltageOut = new VoltageOut(0);
+
 
   public Shooter() {
     toggle(ShooterStates.OFF);
-    ShuffleboardUI.Test.addSlider("Flywheel", flywheel.get(), -1, 1).subscribe(flywheel::set);
+    // ShuffleboardUI.Test.addSlider("Flywheel", flywheel.get(), -1, 1).subscribe(flywheel::set);
+    ShuffleboardUI.Test
+        .addSlider("Flywheel", 0, -12, 12)
+        .subscribe(volts -> flywheel.setControl(voltageOut.withOutput(volts)));
   }
 
   public enum ShooterStates {
@@ -21,9 +29,12 @@ public class Shooter extends KillableSubsystem {
     OFF;
   }
 
-  public void toggle(double speed) {
-    flywheel.set(speed);
+  public void toggle(double volts) {
+    // flywheel.set(speed);
+    flywheel.setControl(voltageOut.withOutput(volts));
+
   }
+
 
   public void toggle(ShooterStates state) {
     switch (state) {
