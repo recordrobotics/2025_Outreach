@@ -49,7 +49,7 @@ public final class Constants {
 
     public static final Current SUPPLY_CURRENT_LIMIT = Amps.of(40);
     public static final Current STATOR_CURRENT_LIMIT = Amps.of(120);
-    public static final double GEAR_RATIO = 10; // No IDEA WHAT GEAR RATIO CURRENTLY IS, FIX LATER
+    public static final double GEAR_RATIO = 4; // No IDEA WHAT GEAR RATIO CURRENTLY IS, FIX LATER
   }
 
   // public final class Channel {
