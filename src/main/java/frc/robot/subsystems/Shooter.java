@@ -1,7 +1,13 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
+import com.ctre.phoenix6.configs.MotionMagicConfigs;
+import com.ctre.phoenix6.configs.MotorOutputConfigs;
+import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 
 // import edu.wpi.first.wpilibj.motorcontrol.Spark;
 // import edu.wpi.first.wpilibj.motorcontrol.Talon;
@@ -21,8 +27,19 @@ public class Shooter extends KillableSubsystem {
         ShuffleboardUI.Test
             .addSlider("Flywheel", 0, -12, 12)
             .subscribe(volts -> flywheel.setControl(voltageOut.withOutput(volts)));
+
+                
+            TalonFXConfiguration config = new TalonFXConfiguration();
+            config.Feedback.SensorToMechanismRatio = Constants.Shooter.GEAR_RATIO;
+
+            flywheel.getConfigurator().apply(config.withMotorOutput(new MotorOutputConfigs().withNeutralMode(NeutralModeValue.Coast))
+              .withCurrentLimits(new CurrentLimitsConfigs()
+                      .withSupplyCurrentLimit(Constants.Shooter.SUPPLY_CURRENT_LIMIT)
+                      .withStatorCurrentLimit(Constants.Shooter.STATOR_CURRENT_LIMIT)
+                      .withSupplyCurrentLimitEnable(true)
+                      .withStatorCurrentLimitEnable(true)));
       }
-    
+
       public enum ShooterStates {
         SPEAKER,
         AMP,

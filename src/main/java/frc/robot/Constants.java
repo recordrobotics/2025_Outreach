@@ -4,7 +4,10 @@
 
 package frc.robot;
 
+import static edu.wpi.first.units.Units.*;
+
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.units.measure.Current;
 import frc.robot.utils.ModuleConstants;
 import frc.robot.utils.ModuleConstants.MotorLocation;
 import frc.robot.utils.ModuleConstants.MotorType;
@@ -43,6 +46,11 @@ public final class Constants {
     // scale ~12
     public static final double SPEAKER_VOLTAGE = 8;
     public static final double REVERSE_VOLTAGE = -3;
+
+            public static final Current SUPPLY_CURRENT_LIMIT = Amps.of(40);
+        public static final Current STATOR_CURRENT_LIMIT = Amps.of(120);
+      public static final double GEAR_RATIO = 10; // No IDEA WHAT GEAR RATIO CURRENTLY IS, FIX LATER
+
   }
 
   // public final class Channel {
