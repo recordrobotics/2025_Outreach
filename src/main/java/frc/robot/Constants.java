@@ -47,10 +47,9 @@ public final class Constants {
     public static final double SPEAKER_VOLTAGE = 12; // was 8
     public static final double REVERSE_VOLTAGE = -3;
 
-            public static final Current SUPPLY_CURRENT_LIMIT = Amps.of(40);
-        public static final Current STATOR_CURRENT_LIMIT = Amps.of(120);
-      public static final double GEAR_RATIO = 10; // No IDEA WHAT GEAR RATIO CURRENTLY IS, FIX LATER
-
+    public static final Current SUPPLY_CURRENT_LIMIT = Amps.of(40);
+    public static final Current STATOR_CURRENT_LIMIT = Amps.of(120);
+    public static final double GEAR_RATIO = 10; // No IDEA WHAT GEAR RATIO CURRENTLY IS, FIX LATER
   }
 
   // public final class Channel {
