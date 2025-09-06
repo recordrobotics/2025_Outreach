@@ -52,13 +52,6 @@ public final class Constants {
     public static final double GEAR_RATIO = 4; // No IDEA WHAT GEAR RATIO CURRENTLY IS, FIX LATER
   }
 
-  // public final class Channel {
-  //     public static final double LOAD_SPEED = -.4;
-  //     public static final double SHOOT_SPEED = -.55;
-  //     public static final double THROUGH_SPEED = -1;
-  //     public static final double REVERSE_SPEED = .6;
-  // }
-
   public final class Control {
 
     // Sensitivity for speed meter
@@ -67,7 +60,7 @@ public final class Constants {
     public static final double SPIN_SPEED_METER_LOW = 0.5;
     public static final double SPIN_SPEED_METER_HIGH = 2.4;
 
-    // Sensitivies for directional controls (XY) and spin (theta)
+    // Sensitivities for directional controls (XY) and spin (theta)
     public static final double JOYSTICK_DIRECTIONAL_SENSITIVITY = 1;
     public static final double JOYSTICK_SPIN_SENSITIVITY = 2;
     public static final double JOYSTICK_XY_DEAD_ZONE = 0.15;
@@ -105,9 +98,14 @@ public final class Constants {
   public final class Differential {
 
     // Works out module locations
-    private static final double locX = Frame.ROBOT_WHEEL_DISTANCE_WIDTH / 2;
-    private static final double locY = Frame.ROBOT_WHEEL_DISTANCE_LENGTH / 2;
-    public static final double locDist = Math.sqrt(locX * locX + locY * locY);
+    private static final double X_DISTANCE_FROM_ORIGIN_TO_MODULE =
+        Frame.ROBOT_WHEEL_DISTANCE_WIDTH / 2;
+    private static final double Y_DISTANCE_FROM_ORIGIN_TO_MODULE =
+        Frame.ROBOT_WHEEL_DISTANCE_LENGTH / 2;
+    public static final double DISTANCE_FROM_ORIGIN_TO_MODULE =
+        Math.sqrt(
+            X_DISTANCE_FROM_ORIGIN_TO_MODULE * X_DISTANCE_FROM_ORIGIN_TO_MODULE
+                + Y_DISTANCE_FROM_ORIGIN_TO_MODULE * Y_DISTANCE_FROM_ORIGIN_TO_MODULE);
 
     // Gear ratios for falcon and kraken
     public static final double NEO_GEAR_RATIO = 10;
@@ -124,10 +122,10 @@ public final class Constants {
     public static final double WHEEL_DIAMETER = Units.inchesToMeters(6);
 
     /** The max speed the robot is allowed to travel */
-    public static final double robotMaxSpeed = 7.0;
+    public static final double ROBOT_MAX_SPEED = 7.0;
 
     /** The max jerk of the robot below which the pose is certain (in G/s) */
-    public static final double MaxPoseCertaintyJerk = 80;
+    public static final double MAX_JERK_FOR_POSE_CERTAINTY = 80;
 
     // Module Creation
 
