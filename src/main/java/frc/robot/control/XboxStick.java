@@ -46,14 +46,10 @@ public class XboxStick extends AbstractControl {
   public Pair<Double, Double> getXY() {
     double X =
         SimpleMath.ApplyThresholdAndSensitivity(
-            drivebox.getRawAxis(0),
-            Constants.Control.XBOX_X_THRESHOLD,
-            Constants.Control.XBOX_DIRECTIONAL_SENSITIVITY);
+            drivebox.getRawAxis(0), Constants.Control.XBOX_X_THRESHOLD, 1);
     double Y =
         SimpleMath.ApplyThresholdAndSensitivity(
-            drivebox.getRawAxis(1),
-            Constants.Control.XBOX_X_THRESHOLD,
-            Constants.Control.XBOX_DIRECTIONAL_SENSITIVITY);
+            drivebox.getRawAxis(1), Constants.Control.XBOX_X_THRESHOLD, 1);
     return super.orientXY(new Pair<Double, Double>(X, Y));
   }
 
@@ -61,12 +57,12 @@ public class XboxStick extends AbstractControl {
     double A =
         SimpleMath.ApplyThresholdAndSensitivity(
             joystick.getX(),
-            Constants.Control.JOYSTICK_X_THRESHOLD,
+            Constants.Control.JOYSTICK_XY_DEAD_ZONE,
             Constants.Control.JOYSTICK_DIRECTIONAL_SENSITIVITY);
     double B =
         SimpleMath.ApplyThresholdAndSensitivity(
             joystick.getY(),
-            Constants.Control.JOYSTICK_Y_THRESHOLD,
+            Constants.Control.JOYSTICK_XY_DEAD_ZONE,
             Constants.Control.JOYSTICK_DIRECTIONAL_SENSITIVITY);
     return super.orientXY(new Pair<Double, Double>(A, B));
   }

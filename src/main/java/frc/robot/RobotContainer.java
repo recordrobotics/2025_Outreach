@@ -1,74 +1,38 @@
 package frc.robot;
 
-// WPILib imports
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-// Local imports
 import frc.robot.commands.manual.*;
 import frc.robot.control.*;
 import frc.robot.shuffleboard.ShuffleboardUI;
 import frc.robot.subsystems.*;
 
-/**
- * This class is where the bulk of the robot should be declared. Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
- * subsystems, commands, and button mappings) should be declared here.
- */
 public class RobotContainer {
+  public static final Drivetrain drivetrain = new Drivetrain();
+  public static final Shooter shooter = new Shooter();
 
-  // The robot's subsystems and commands are defined here
-  private final Drivetrain _drivetrain;
-  private final Shooter _shooter;
-
-  /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-
-    // Init subsystems
-    _drivetrain = new Drivetrain();
-    _shooter = new Shooter();
-
-    // Sets up Control scheme chooser
     ShuffleboardUI.Overview.addControls(
-        new Xbox(Constants.ID.driveboxID),
-        new XboxOnlySpin(Constants.ID.driveboxID),
-        new JoystickController(Constants.ID.joystickID),
-        new XboxStick(Constants.ID.driveboxID, Constants.ID.joystickID),
-        new XboxStickOnlySpin(Constants.ID.driveboxID, Constants.ID.joystickID));
+        new XboxControl(Constants.ID.XBOX_ID),
+        new XboxOnlySpin(Constants.ID.XBOX_ID),
+        new JoystickController(Constants.ID.JOYSTICK_ID),
+        new XboxStick(Constants.ID.XBOX_ID, Constants.ID.JOYSTICK_ID),
+        new XboxStickOnlySpin(Constants.ID.XBOX_ID, Constants.ID.JOYSTICK_ID));
 
-    // Bindings and Teleop
     configureButtonBindings();
   }
 
   public void teleopInit() {
-    // Sets default command for manual swerve. It is the only one right now
-    _drivetrain.setDefaultCommand(new ManualDrive(_drivetrain));
+    drivetrain.setDefaultCommand(new ManualDrive(drivetrain));
   }
 
-  /**
-   * Use this method to define your button->command mappings. Buttons can be created by
-   * instantiating a {@link GenericHID} or one of its subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
-   * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-   */
-  private void configureButtonBindings() {
-    // Command to kill robot
-    //  not nessessory AUTO KILL!!!  // new Trigger(() ->
-    // ShuffleboardUI.Overview.getControl().getKillAuto()).whileTrue(new KillSpecified(_drivetrain,
-    // _channel, _shooter));
-    // Reset pose trigger
-    //  why we keeping posereset  // new Trigger(() ->
-    // ShuffleboardUI.Overview.getControl().getPoseReset())
-    //     .onTrue(new InstantCommand(_drivetrain::resetDriverPose));
-
+  private static void configureButtonBindings() {
     new Trigger(() -> ShuffleboardUI.Overview.getControl().getReverse())
-        .toggleOnTrue(new Reverse(_shooter));
+        .toggleOnTrue(new Reverse(shooter));
     new Trigger(() -> ShuffleboardUI.Overview.getControl().getShoot())
-        .toggleOnTrue(new Shoot(_shooter));
+        .toggleOnTrue(new Shoot(shooter));
     new Trigger(() -> ShuffleboardUI.Overview.getControl().getTwerk())
-        .toggleOnTrue(new RobotTwerk(_drivetrain));
+        .toggleOnTrue(new RobotTwerk(drivetrain));
   }
 
   /**

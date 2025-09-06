@@ -27,8 +27,8 @@ public final class Constants {
   // =========================
   // PLUG IN XBOX FIRST AND THEN JOYSTICK
   public final class ID {
-    public static final int driveboxID = 0;
-    public static final int joystickID = 1;
+    public static final int XBOX_ID = 0;
+    public static final int JOYSTICK_ID = 1;
   }
 
   public final class Twerk {
@@ -70,12 +70,10 @@ public final class Constants {
     // Sensitivies for directional controls (XY) and spin (theta)
     public static final double JOYSTICK_DIRECTIONAL_SENSITIVITY = 1;
     public static final double JOYSTICK_SPIN_SENSITIVITY = 2;
-    public static final double JOYSTICK_X_THRESHOLD = 0.15;
-    public static final double JOYSTICK_Y_THRESHOLD = 0.15;
+    public static final double JOYSTICK_XY_DEAD_ZONE = 0.15;
     public static final double JOYSTICK_SPIN_THRESHOLD = 0.3;
 
     // Thresholds for directional controls (XY) and spin (theta)
-    public static final double XBOX_DIRECTIONAL_SENSITIVITY = 1;
     public static final double XBOX_X_THRESHOLD = 0.15;
     public static final double XBOX_Y_THRESHOLD = 0.15;
     public static final double XBOX_SPIN_THRESHOLD = 0.3;

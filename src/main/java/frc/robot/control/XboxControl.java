@@ -9,14 +9,14 @@ import frc.robot.Constants;
 import frc.robot.utils.DriveCommandData;
 import frc.robot.utils.SimpleMath;
 
-public class Xbox extends AbstractControl {
+public class XboxControl extends AbstractControl {
 
-  private XboxController drivebox;
+  private XboxController xbox;
   private double speed_level = 0.8;
 
-  public Xbox(int driveboxID) {
+  public XboxControl(int xboxID) {
     // Sets up xbox controller
-    drivebox = new XboxController(driveboxID);
+    xbox = new XboxController(xboxID);
   }
 
   private Translation3d currentXYR = new Translation3d();
@@ -45,23 +45,19 @@ public class Xbox extends AbstractControl {
   }
 
   public Pair<Double, Double> getXY() {
-    double X =
+    double x =
         SimpleMath.ApplyThresholdAndSensitivity(
-            drivebox.getRawAxis(0),
-            Constants.Control.XBOX_X_THRESHOLD,
-            Constants.Control.XBOX_DIRECTIONAL_SENSITIVITY);
-    double Y =
+            xbox.getRawAxis(0), Constants.Control.XBOX_X_THRESHOLD, 1);
+    double y =
         SimpleMath.ApplyThresholdAndSensitivity(
-            drivebox.getRawAxis(1),
-            Constants.Control.XBOX_Y_THRESHOLD,
-            Constants.Control.XBOX_DIRECTIONAL_SENSITIVITY);
+            xbox.getRawAxis(1), Constants.Control.XBOX_Y_THRESHOLD, 1);
 
-    return super.orientXY(new Pair<Double, Double>(X, Y));
+    return super.orientXY(new Pair<Double, Double>(x, y));
   }
 
   public Double getSpin() {
     return SimpleMath.ApplyThresholdAndSensitivity(
-        drivebox.getRawAxis(4),
+        xbox.getRawAxis(4),
         Constants.Control.XBOX_SPIN_ROT_THRESHOLD,
         Constants.Control.XBOX_SPIN_ROT_SENSITIVITY);
   }
@@ -86,16 +82,16 @@ public class Xbox extends AbstractControl {
 
   @Override
   public Boolean getShoot() {
-    return drivebox.getRightTriggerAxis() > 0.3;
+    return xbox.getRightTriggerAxis() > 0.3;
   }
 
   @Override
   public Boolean getReverse() {
-    return drivebox.getRawButton(1); // 6
+    return xbox.getRawButton(1); // 6
   }
 
   @Override
   public Boolean getTwerk() {
-    return drivebox.getRawButton(6); // 1
+    return xbox.getRawButton(6); // 1
   }
 }

@@ -12,14 +12,6 @@ public class Shoot extends SequentialCommandGroup {
 
   private static Shooter _shooter;
 
-  /** Number of seconds it takes to shoot once the flywheel h as been spun up */
-
-  /**
-   * Command that shoots the note into the speaker. Manages all relevant subsystems to do so.
-   *
-   * @param channel
-   * @param shooter
-   */
   public Shoot(Shooter shooter) {
     _shooter = shooter;
     addRequirements(shooter);

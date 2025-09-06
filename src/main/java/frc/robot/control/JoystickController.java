@@ -26,17 +26,17 @@ public class JoystickController extends AbstractControl {
   }
 
   public Pair<Double, Double> getXY() {
-    double X =
+    double x =
         SimpleMath.ApplyThresholdAndSensitivity(
             joystick.getX(),
-            Constants.Control.JOYSTICK_X_THRESHOLD,
+            Constants.Control.JOYSTICK_XY_DEAD_ZONE,
             Constants.Control.JOYSTICK_DIRECTIONAL_SENSITIVITY);
-    double Y =
+    double y =
         SimpleMath.ApplyThresholdAndSensitivity(
             joystick.getY(),
-            Constants.Control.JOYSTICK_Y_THRESHOLD,
+            Constants.Control.JOYSTICK_XY_DEAD_ZONE,
             Constants.Control.JOYSTICK_DIRECTIONAL_SENSITIVITY);
-    return super.orientXY(new Pair<Double, Double>(X, Y));
+    return super.orientXY(new Pair<Double, Double>(x, y));
   }
 
   public Double getSpin() {
@@ -53,16 +53,6 @@ public class JoystickController extends AbstractControl {
   public Double getSpinSpeedLevel() {
     return .7 * SPEED_MULTIPLIER; // 3.14
   }
-
-  // @Override
-  // public Boolean getPoseReset() {
-  //     return drivebox.getRawButtonPressed(7);
-  // }
-
-  // @Override
-  // public Boolean getKillAuto() {
-  //     return drivebox.getRawButton(8);
-  // }
 
   @Override
   public Boolean getShoot() {

@@ -12,6 +12,7 @@ public class XboxStickOnlySpin extends AbstractControl {
   private final XboxController xbox;
   private final Joystick joystick;
   private static final double SPEED_MULTIPLIER = 0.8;
+  private static final double JOYSTICK_DEAD_ZONE = 0.1;
 
   public XboxStickOnlySpin(int xboxID, int joystickID) {
     this.joystick = new Joystick(joystickID);
@@ -20,20 +21,15 @@ public class XboxStickOnlySpin extends AbstractControl {
 
   @Override
   public DriveCommandData getDriveCommandData() {
-    // Gets information needed to drive
-    DriveCommandData driveCommandData =
-        new DriveCommandData(
-            -(getAB().getFirst()) * getDirectionalSpeedLevel(),
-            (getAB().getSecond()) * getDirectionalSpeedLevel(),
-            (-getSpin() * isJoyOn() + (getSpinJoy() / 0.7)) * getSpinSpeedLevel(),
-            false);
-
-    // Returns
-    return driveCommandData;
+    return new DriveCommandData(
+        -(getAB().getFirst()) * getDirectionalSpeedLevel(),
+        (getAB().getSecond()) * getDirectionalSpeedLevel(),
+        (-getSpin() * isJoyMoved() + (getSpinJoy() / 0.7)) * getSpinSpeedLevel(),
+        false);
   }
 
-  public int isJoyOn() {
-    if (Math.abs(getSpinJoy()) <= 0.1) {
+  public int isJoyMoved() {
+    if (Math.abs(getSpinJoy()) <= JOYSTICK_DEAD_ZONE) {
       return 1;
     } else {
       return 0;
@@ -41,29 +37,25 @@ public class XboxStickOnlySpin extends AbstractControl {
   }
 
   public Pair<Double, Double> getXY() {
-    double X =
+    double x =
         SimpleMath.ApplyThresholdAndSensitivity(
-            xbox.getRawAxis(0),
-            Constants.Control.XBOX_X_THRESHOLD,
-            Constants.Control.XBOX_DIRECTIONAL_SENSITIVITY);
-    double Y =
+            xbox.getRawAxis(0), Constants.Control.XBOX_X_THRESHOLD, 1);
+    double y =
         SimpleMath.ApplyThresholdAndSensitivity(
-            xbox.getRawAxis(1),
-            Constants.Control.XBOX_X_THRESHOLD,
-            Constants.Control.XBOX_DIRECTIONAL_SENSITIVITY);
-    return super.orientXY(new Pair<Double, Double>(X, Y));
+            xbox.getRawAxis(1), Constants.Control.XBOX_X_THRESHOLD, 1);
+    return super.orientXY(new Pair<Double, Double>(x, y));
   }
 
   public Pair<Double, Double> getAB() {
     double A =
         SimpleMath.ApplyThresholdAndSensitivity(
             joystick.getX(),
-            Constants.Control.JOYSTICK_X_THRESHOLD,
+            Constants.Control.JOYSTICK_XY_DEAD_ZONE,
             Constants.Control.JOYSTICK_DIRECTIONAL_SENSITIVITY);
     double B =
         SimpleMath.ApplyThresholdAndSensitivity(
             joystick.getY(),
-            Constants.Control.JOYSTICK_Y_THRESHOLD,
+            Constants.Control.JOYSTICK_XY_DEAD_ZONE,
             Constants.Control.JOYSTICK_DIRECTIONAL_SENSITIVITY);
     return super.orientXY(new Pair<Double, Double>(A, B));
   }
