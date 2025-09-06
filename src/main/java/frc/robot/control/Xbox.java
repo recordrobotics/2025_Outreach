@@ -56,7 +56,7 @@ public class Xbox extends AbstractControl {
             Constants.Control.XBOX_Y_THRESHOLD,
             Constants.Control.XBOX_DIRECTIONAL_SENSITIVITY);
 
-    return super.OrientXY(new Pair<Double, Double>(X, Y));
+    return super.orientXY(new Pair<Double, Double>(X, Y));
   }
 
   public Double getSpin() {

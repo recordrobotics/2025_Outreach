@@ -8,55 +8,50 @@ import frc.robot.utils.SimpleMath;
 
 public class JoystickController extends AbstractControl {
 
-  private double speed_level = 0.8;
-  private final Joystick drivestick;
+  private static final double SPEED_MULTIPLIER = 0.8;
+  private final Joystick joystick;
 
-  public JoystickController(int drivestickID) {
+  public JoystickController(int joystickID) {
     // Sets up xbox controllers
-    drivestick = new Joystick(drivestickID);
+    joystick = new Joystick(joystickID);
   }
 
   @Override
   public DriveCommandData getDriveCommandData() {
-    // Gets information needed to drive
-    DriveCommandData driveCommandData =
-        new DriveCommandData(
-            -(getXY().getFirst()) * getDirectionalSpeedLevel(),
-            (getXY().getSecond()) * getDirectionalSpeedLevel(),
-            (-(getSpin() / 0.7)) * getSpinSpeedLevel(),
-            false);
-
-    // Returns
-    return driveCommandData;
+    return new DriveCommandData(
+        -(getXY().getFirst()) * getDirectionalSpeedLevel(),
+        (getXY().getSecond()) * getDirectionalSpeedLevel(),
+        (-(getSpin() / 0.7)) * getSpinSpeedLevel(),
+        false);
   }
 
   public Pair<Double, Double> getXY() {
     double X =
         SimpleMath.ApplyThresholdAndSensitivity(
-            drivestick.getX(),
+            joystick.getX(),
             Constants.Control.JOYSTICK_X_THRESHOLD,
-            Constants.Control.JOSYSTICK_DIRECTIONAL_SENSITIVITY);
+            Constants.Control.JOYSTICK_DIRECTIONAL_SENSITIVITY);
     double Y =
         SimpleMath.ApplyThresholdAndSensitivity(
-            drivestick.getY(),
+            joystick.getY(),
             Constants.Control.JOYSTICK_Y_THRESHOLD,
-            Constants.Control.JOSYSTICK_DIRECTIONAL_SENSITIVITY);
-    return super.OrientXY(new Pair<Double, Double>(X, Y));
+            Constants.Control.JOYSTICK_DIRECTIONAL_SENSITIVITY);
+    return super.orientXY(new Pair<Double, Double>(X, Y));
   }
 
   public Double getSpin() {
     return SimpleMath.ApplyThresholdAndSensitivity(
-        -drivestick.getTwist(),
+        -joystick.getTwist(),
         Constants.Control.JOYSTICK_SPIN_THRESHOLD,
         Constants.Control.JOYSTICK_SPIN_SENSITIVITY);
   }
 
   public Double getDirectionalSpeedLevel() {
-    return speed_level;
+    return SPEED_MULTIPLIER;
   }
 
   public Double getSpinSpeedLevel() {
-    return .7 * speed_level; // 3.14
+    return .7 * SPEED_MULTIPLIER; // 3.14
   }
 
   // @Override
@@ -71,12 +66,12 @@ public class JoystickController extends AbstractControl {
 
   @Override
   public Boolean getShoot() {
-    return drivestick.getRawButton(1);
+    return joystick.getRawButton(1);
   }
 
   @Override
   public Boolean getReverse() {
-    return drivestick.getRawButton(2);
+    return joystick.getRawButton(2);
   }
 
   @Override
