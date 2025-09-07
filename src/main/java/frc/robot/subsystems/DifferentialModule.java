@@ -1,19 +1,12 @@
 package frc.robot.subsystems;
 
-import com.revrobotics.spark.SparkBase;
-import com.revrobotics.spark.SparkLowLevel.MotorType;
-import com.revrobotics.spark.SparkMax;
-import com.revrobotics.spark.config.SparkMaxConfig;
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.shuffleboard.ShuffleboardUI;
 import frc.robot.Constants;
 import frc.robot.subsystems.io.DifferentialModuleIO;
 import frc.robot.utils.ModuleConstants;
 
-public class DifferentialModule{
+public class DifferentialModule {
   public final DifferentialModuleIO io;
 
   private static double[] graph = new double[4];
@@ -105,7 +98,6 @@ public class DifferentialModule{
   private void setupShuffleboard(double driveMotorChannel) {
     io.setupShuffleboard(driveMotorChannel);
   }
-
 
   public void simulationPeriodic() {
     io.simulationPeriodic();

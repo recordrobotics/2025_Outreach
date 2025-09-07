@@ -160,21 +160,15 @@ public final class Constants {
 
   public final class RobotState {
     /**
-         * <p>
-         * Enable NT and Advantage Scope for unit tests.
-         * </p>
-         * <p>
-         * WARNING! ONLY ENABLE THIS IF RUNNING A SINGLE UNIT TEST
-         * </p>
-         * <p>
-         * RUNNING TESTS IN PARALLEL IS NOT SUPPORTED
-         * </p>
-         *
-         * Example: {@code ./gradlew test --tests "*ReefAutoScoreTestCases`$Blue4"}
-         */
+     * Enable NT and Advantage Scope for unit tests.
+     *
+     * <p>WARNING! ONLY ENABLE THIS IF RUNNING A SINGLE UNIT TEST
+     *
+     * <p>RUNNING TESTS IN PARALLEL IS NOT SUPPORTED Example: {@code ./gradlew test --tests
+     * "*ReefAutoScoreTestCases`$Blue4"}
+     */
     public static final boolean UNIT_TESTS_ENABLE_ADVANTAGE_SCOPE = false;
 
-    
     public static Mode getMode() {
       return RobotBase.isReal() ? Mode.REAL : (RobotBase.isSimulation() ? Mode.SIM : Mode.REPLAY);
     }
@@ -190,12 +184,12 @@ public final class Constants {
       boolean realtime;
 
       Mode(boolean realtime) {
-          this.realtime = realtime;
+        this.realtime = realtime;
       }
 
       public boolean isRealtime() {
-          return realtime;
+        return realtime;
       }
-  }
+    }
   }
 }
