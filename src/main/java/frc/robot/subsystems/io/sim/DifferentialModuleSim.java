@@ -39,7 +39,11 @@ public class DifferentialModuleSim implements DifferentialModuleIO, AutoCloseabl
           LinearSystemId.createDCMotorSystem(
               wheelMotor, 0.001, Constants.Differential.NEO_GEAR_RATIO),
           wheelMotor);
-
+          private final DCMotorSim wheelSimModelFollower =
+          new DCMotorSim(
+              LinearSystemId.createDCMotorSystem(
+                  wheelMotor, 0.001, Constants.Differential.NEO_GEAR_RATIO),
+              wheelMotor);
   // private final AbstractDriveTrainSimulation drivetrainSim;
 
   private final double DRIVE_GEAR_RATIO;
@@ -93,40 +97,18 @@ public class DifferentialModuleSim implements DifferentialModuleIO, AutoCloseabl
         RobotController.getBatteryVoltage(),
         periodicDt);
 
-    velocityFilter.calculate(Drivetrain.m_left.getDriveWheelVelocity());
 
-    // if (!getCoralDetector()) { // NC
-    //   var ejectPose =
-    //       RobotContainer.model
-    //           .elevatorArm
-    //           .getCoralShooterTargetPose()
-    //           .relativeTo(new Pose3d(RobotContainer.model.getRobot()));
-    //   if (Math.abs(velocityFilter.lastValue()) > 1.3) {
-    //     RobotContainer.model.getRobotCoral().poseSupplier = () -> null;
-    //     setCoralDetectorSim(true); // NC
+    var voltageFollower = m_driveMotorFollowerSim.getAppliedOutput() * m_driveMotorFollowerSim.getBusVoltage();
 
-    //     var angle = ejectPose.getRotation().getMeasureY();
-    //     if (RobotContainer.elevatorHead.getVelocity() > 0) {
-    //       angle = angle.unaryMinus();
-    //     }
+    wheelSimModelFollower.setInputVoltage(voltageFollower);
+    wheelSimModelFollower.update(periodicDt);
 
-    //     SimulatedArena.getInstance()
-    //         .addGamePieceProjectile(
-    //             new ReefscapeCoralOnFly(
-    //                 // Obtain robot position from drive simulation
-    //                 drivetrainSim.getSimulatedDriveTrainPose().getTranslation(),
-    //                 ejectPose.toPose2d().getTranslation(),
-    //                 // Obtain robot speed from drive simulation
-    //                 drivetrainSim.getDriveTrainSimulatedChassisSpeedsFieldRelative(),
-    //                 // Obtain robot facing from drive simulation
-    //                 drivetrainSim.getSimulatedDriveTrainPose().getRotation(),
-    //                 // The height at which the coral is ejected
-    //                 ejectPose.getMeasureZ(),
-    //                 // The initial speed of the coral
-    //                 MetersPerSecond.of(Math.abs(RobotContainer.elevatorHead.getVelocity())),
-    //                 angle));
-    //   }
-    // }
+    m_driveMotorFollowerSim.iterate(
+        Units.radiansToRotations(wheelSimModelFollower.getAngularVelocityRadPerSec())
+            * 60.0
+            * DRIVE_GEAR_RATIO,
+        RobotController.getBatteryVoltage(),
+        periodicDt);
   }
 
   @Override
