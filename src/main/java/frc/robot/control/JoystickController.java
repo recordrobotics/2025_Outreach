@@ -46,7 +46,7 @@ public class JoystickController extends AbstractControl {
 
   public Double getSpin() {
     return SimpleMath.ApplyThresholdAndSensitivity(
-        -drivestick.getTwist(),
+        drivestick.getTwist(),
         Constants.Control.JOYSTICK_SPIN_THRESHOLD,
         Constants.Control.JOYSTICK_SPIN_SENSITIVITY);
   }
