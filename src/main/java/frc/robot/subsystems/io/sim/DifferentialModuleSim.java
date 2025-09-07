@@ -36,13 +36,11 @@ public class DifferentialModuleSim implements DifferentialModuleIO, AutoCloseabl
 
   private final DCMotorSim wheelSimModel =
       new DCMotorSim(
-          LinearSystemId.createDCMotorSystem(
-              wheelMotor, 0.001, Constants.Differential.NEO_GEAR_RATIO),
+          LinearSystemId.createDCMotorSystem(Constants.Differential.NEO_FEEDFORWARD_KV / Constants.Differential.NEO_GEAR_RATIO, 0.05),
           wheelMotor);
           private final DCMotorSim wheelSimModelFollower =
           new DCMotorSim(
-              LinearSystemId.createDCMotorSystem(
-                  wheelMotor, 0.001, Constants.Differential.NEO_GEAR_RATIO),
+            LinearSystemId.createDCMotorSystem(Constants.Differential.NEO_FEEDFORWARD_KV / Constants.Differential.NEO_GEAR_RATIO, 0.05),
               wheelMotor);
   // private final AbstractDriveTrainSimulation drivetrainSim;
 
