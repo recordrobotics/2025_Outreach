@@ -13,7 +13,7 @@ import frc.robot.Constants;
 import frc.robot.subsystems.io.DifferentialModuleIO;
 import frc.robot.utils.ModuleConstants;
 
-public class DifferentialModule extends KillableSubsystem {
+public class DifferentialModule{
   public final DifferentialModuleIO io;
 
   private static double[] graph = new double[4];
@@ -106,8 +106,8 @@ public class DifferentialModule extends KillableSubsystem {
     io.setupShuffleboard(driveMotorChannel);
   }
 
-  @Override
-  public void kill() {
-    io.kill();
+
+  public void simulationPeriodic() {
+    io.simulationPeriodic();
   }
 }

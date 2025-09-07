@@ -50,15 +50,15 @@ public class Drivetrain extends KillableSubsystem {
     m_left =
         new DifferentialModule(
             Constants.RobotState.getMode() == Constants.RobotState.Mode.REAL
-                ? new DifferentialModuleReal(0.2, Constants.Differential.leftConstants)
-                : new DifferentialModuleSim(0.2, Constants.Differential.leftConstants),
+                ? new DifferentialModuleReal(0.02, Constants.Differential.leftConstants)
+                : new DifferentialModuleSim(0.02, Constants.Differential.leftConstants),
             Constants.Differential.leftConstants);
 
     m_right =
         new DifferentialModule(
             Constants.RobotState.getMode() == Constants.RobotState.Mode.REAL
-                ? new DifferentialModuleReal(0.2, Constants.Differential.rightConstants)
-                : new DifferentialModuleSim(0.2, Constants.Differential.rightConstants),
+                ? new DifferentialModuleReal(0.02, Constants.Differential.rightConstants)
+                : new DifferentialModuleSim(0.02, Constants.Differential.rightConstants),
             Constants.Differential.rightConstants);
 
     m_poseEstimator =
