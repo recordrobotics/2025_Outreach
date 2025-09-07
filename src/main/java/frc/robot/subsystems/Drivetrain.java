@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import org.littletonrobotics.junction.AutoLogOutput;
+
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -8,6 +10,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.subsystems.io.real.DifferentialModuleReal;
 import frc.robot.subsystems.io.real.NavSensorReal;
@@ -114,6 +117,17 @@ public class Drivetrain extends KillableSubsystem {
     m_right.update();
     m_poseEstimator.update(
         nav.getAdjustedAngle(), m_left.getDriveWheelPosition(), m_right.getDriveWheelPosition());
+  }
+
+  @Override
+  public void simulationPeriodic() {
+    m_left.simulationPeriodic();
+    m_right.simulationPeriodic();
+  }
+
+  @AutoLogOutput
+  public Pose2d getPose() {
+    return m_poseEstimator.getEstimatedPosition();
   }
 
   /** Resets the field relative position of the robot (mostly for testing). */
