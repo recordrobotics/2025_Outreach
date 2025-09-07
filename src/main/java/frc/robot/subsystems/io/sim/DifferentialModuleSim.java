@@ -16,7 +16,6 @@ import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.shuffleboard.ShuffleboardUI;
-import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.io.DifferentialModuleIO;
 import frc.robot.utils.ModuleConstants;
 
@@ -36,12 +35,16 @@ public class DifferentialModuleSim implements DifferentialModuleIO, AutoCloseabl
 
   private final DCMotorSim wheelSimModel =
       new DCMotorSim(
-          LinearSystemId.createDCMotorSystem(Constants.Differential.NEO_FEEDFORWARD_KV / Constants.Differential.NEO_GEAR_RATIO, 0.05),
+          LinearSystemId.createDCMotorSystem(
+              Constants.Differential.NEO_FEEDFORWARD_KV / Constants.Differential.NEO_GEAR_RATIO,
+              0.05),
           wheelMotor);
-          private final DCMotorSim wheelSimModelFollower =
-          new DCMotorSim(
-            LinearSystemId.createDCMotorSystem(Constants.Differential.NEO_FEEDFORWARD_KV / Constants.Differential.NEO_GEAR_RATIO, 0.05),
-              wheelMotor);
+  private final DCMotorSim wheelSimModelFollower =
+      new DCMotorSim(
+          LinearSystemId.createDCMotorSystem(
+              Constants.Differential.NEO_FEEDFORWARD_KV / Constants.Differential.NEO_GEAR_RATIO,
+              0.05),
+          wheelMotor);
   // private final AbstractDriveTrainSimulation drivetrainSim;
 
   private final double DRIVE_GEAR_RATIO;
@@ -95,8 +98,8 @@ public class DifferentialModuleSim implements DifferentialModuleIO, AutoCloseabl
         RobotController.getBatteryVoltage(),
         periodicDt);
 
-
-    var voltageFollower = m_driveMotorFollowerSim.getAppliedOutput() * m_driveMotorFollowerSim.getBusVoltage();
+    var voltageFollower =
+        m_driveMotorFollowerSim.getAppliedOutput() * m_driveMotorFollowerSim.getBusVoltage();
 
     wheelSimModelFollower.setInputVoltage(voltageFollower);
     wheelSimModelFollower.update(periodicDt);
