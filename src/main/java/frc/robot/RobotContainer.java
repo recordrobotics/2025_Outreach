@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.TagAlign;
 // Local imports
 import frc.robot.commands.manual.*;
 import frc.robot.control.*;
@@ -22,12 +23,15 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here
   public static Drivetrain _drivetrain;
   private final Shooter _shooter;
+  public static PVCamera pvCamera;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Init subsystems
     _drivetrain = new Drivetrain();
     _shooter = new Shooter();
+
+    pvCamera = new PVCamera("tagcam");
 
     // Sets up Control scheme chooser
     ShuffleboardUI.Overview.addControls(
@@ -62,12 +66,16 @@ public class RobotContainer {
     // ShuffleboardUI.Overview.getControl().getPoseReset())
     //     .onTrue(new InstantCommand(_drivetrain::resetDriverPose));
 
+    TagAlign tagAlignCommand = new TagAlign();
+
     new Trigger(() -> ShuffleboardUI.Overview.getControl().getReverse())
         .toggleOnTrue(new Reverse(_shooter));
     new Trigger(() -> ShuffleboardUI.Overview.getControl().getShoot())
-        .toggleOnTrue(new Shoot(_shooter));
+        .onTrue(new Shoot(_shooter).andThen(tagAlignCommand::declareShotAtCurrentTarget));
     new Trigger(() -> ShuffleboardUI.Overview.getControl().getTwerk())
         .toggleOnTrue(new RobotTwerk(_drivetrain));
+    new Trigger(() -> ShuffleboardUI.Overview.getControl().getTagAlign())
+        .whileTrue(tagAlignCommand.ignoringDisable(true));
   }
 
   /**
