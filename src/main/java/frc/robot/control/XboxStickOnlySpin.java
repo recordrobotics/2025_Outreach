@@ -122,4 +122,9 @@ public class XboxStickOnlySpin extends AbstractControl {
                   || joystick.getRawButton(6); */
     // drivebox.getRawButton(1)
   }
+
+  @Override
+  public Boolean getTagAlign() {
+    return joystick.getRawAxis(3) < -0.8;
+  }
 }
