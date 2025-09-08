@@ -98,4 +98,9 @@ public class Xbox extends AbstractControl {
   public Boolean getTwerk() {
     return drivebox.getRawButton(6); // 1
   }
+
+  @Override
+  public Boolean getTagAlign() {
+    return drivebox.getXButton();
+  }
 }

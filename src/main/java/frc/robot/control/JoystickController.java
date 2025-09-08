@@ -86,4 +86,9 @@ public class JoystickController extends AbstractControl {
                   || drivestick.getRawButton(5)
                   || drivestick.getRawButton(6);*/
   }
+
+  @Override
+  public Boolean getTagAlign() {
+    return drivestick.getRawAxis(3) < -0.8;
+  }
 }
