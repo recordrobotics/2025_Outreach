@@ -45,7 +45,7 @@ public class DifferentialModuleReal implements DifferentialModuleIO {
     followerConfig.follow(m_driveMotor).inverted(false);
 
     m_driveMotor.configure(
-        followerConfig,
+        new SparkMaxConfig().inverted(m.inverted),
         SparkBase.ResetMode.kResetSafeParameters,
         SparkBase.PersistMode.kPersistParameters);
     m_driveMotorFollower.configure(
