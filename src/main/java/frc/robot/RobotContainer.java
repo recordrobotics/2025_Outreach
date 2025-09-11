@@ -78,9 +78,7 @@ public class RobotContainer {
             () ->
                 ShuffleboardUI.Overview.getControl().getTagAlign()
                     && Math.abs(ShuffleboardUI.Overview.getControl().getDriveCommandData().rot)
-                        <= 0.01
-                    && Math.abs(ShuffleboardUI.Overview.getControl().getDriveCommandData().xSpeed)
-                        <= 0.01)
+                        <= 0.1)
         .whileTrue(tagAlignCommand.ignoringDisable(true));
   }
 
