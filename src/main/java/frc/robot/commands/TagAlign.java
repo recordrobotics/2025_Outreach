@@ -43,10 +43,6 @@ public class TagAlign extends Command {
       currentTarget = getOldestVisibleTag();
     }
 
-    if (currentTarget == null) {
-      currentTarget = getClosestVisibleTag();
-    }
-
     driveTowardsTarget(currentTarget);
 
     Logger.recordOutput("TagAlign/CurrentTarget", currentTargetId);
@@ -80,24 +76,6 @@ public class TagAlign extends Command {
         double lastShotAt = lastShotAtTagTimes.getOrDefault(reading.getKey(), 0.0);
         if (lastShotAt < oldestTime) {
           oldestTime = lastShotAt;
-          target = reading.getValue();
-          currentTargetId = reading.getKey();
-        }
-      }
-    }
-
-    return target;
-  }
-
-  private VisionReading getClosestVisibleTag() {
-    VisionReading target = null;
-    double closestPixels = Double.MAX_VALUE;
-
-    for (var reading : RobotContainer.pvCamera.getReadings().entrySet()) {
-      if (reading.getValue().isVisible()) {
-        double absPixels = Math.abs(reading.getValue().lastSeenAtYawPixels);
-        if (absPixels < closestPixels) {
-          closestPixels = absPixels;
           target = reading.getValue();
           currentTargetId = reading.getKey();
         }
