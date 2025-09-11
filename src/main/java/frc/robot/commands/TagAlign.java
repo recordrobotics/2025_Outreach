@@ -49,7 +49,7 @@ public class TagAlign extends Command {
     double subtractThreshold = Math.max(0, Math.abs(input) - threshold);
     // What proportion (threshold to value) is of (threshold to 1)
     double proportion = subtractThreshold / (1 - threshold);
-    // Multiplies by spin sensitivity and returns
+    // Brings back the correct sign and returns
     return Math.signum(input) * proportion;
   }
 
@@ -108,7 +108,7 @@ public class TagAlign extends Command {
     DriveCommandData drive = _controls.getDriveCommandData();
 
     if (target != null) {
-      double yawError = (target.lastSeenAtYawPixels + TARGET_OFFSET_YAW) / MAX_ANGLE;
+      double yawError = target.getLastSeenAtYaw(TARGET_OFFSET_YAW) / MAX_ANGLE;
       yawError = interpolatedDeadZone(yawError, ZERO_WIDTH);
       double rotationSpeed = pid.calculate(yawError, 0.0);
       Logger.recordOutput("TagAlign/YawError", yawError);
