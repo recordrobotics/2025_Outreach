@@ -32,8 +32,25 @@ public class TagAlign extends Command {
     currentTargetId = -1;
   }
 
-  private static double interpolateToZero(double value, double alpha) {
-    return Math.max(0, (Math.abs(value) - alpha) / (1 - alpha)) * Math.signum(value);
+  /**
+   * Takes an input value between -1 and 1 and scales it to the proportion to which it's absolute
+   * value is between a minimum threshold and 1 (Function returns 0 if input < threshold)
+   *
+   * @param input
+   * @param threshold
+   * @return
+   */
+  public static double interpolatedDeadZone(double input, double threshold) {
+    if (threshold < 0 || threshold >= 1) {
+      throw new IllegalArgumentException("Threshold must be between 0 and 1");
+    }
+
+    // How much the input is above the threshold (absolute value)
+    double subtractThreshold = Math.max(0, Math.abs(input) - threshold);
+    // What proportion (threshold to value) is of (threshold to 1)
+    double proportion = subtractThreshold / (1 - threshold);
+    // Multiplies by spin sensitivity and returns
+    return Math.signum(input) * proportion;
   }
 
   @Override
@@ -92,7 +109,7 @@ public class TagAlign extends Command {
 
     if (target != null) {
       double yawError = (target.lastSeenAtYawPixels + TARGET_OFFSET_YAW) / MAX_ANGLE;
-      yawError = interpolateToZero(yawError, ZERO_WIDTH);
+      yawError = interpolatedDeadZone(yawError, ZERO_WIDTH);
       double rotationSpeed = pid.calculate(yawError, 0.0);
       Logger.recordOutput("TagAlign/YawError", yawError);
       drive.rot = rotationSpeed;
