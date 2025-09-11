@@ -74,7 +74,13 @@ public class RobotContainer {
         .onTrue(new Shoot(_shooter).andThen(tagAlignCommand::declareShotAtCurrentTarget));
     new Trigger(() -> ShuffleboardUI.Overview.getControl().getTwerk())
         .toggleOnTrue(new RobotTwerk(_drivetrain));
-    new Trigger(() -> ShuffleboardUI.Overview.getControl().getTagAlign())
+    new Trigger(
+            () ->
+                ShuffleboardUI.Overview.getControl().getTagAlign()
+                    && Math.abs(ShuffleboardUI.Overview.getControl().getDriveCommandData().rot)
+                        <= 0.01
+                    && Math.abs(ShuffleboardUI.Overview.getControl().getDriveCommandData().xSpeed)
+                        <= 0.01)
         .whileTrue(tagAlignCommand.ignoringDisable(true));
   }
 
