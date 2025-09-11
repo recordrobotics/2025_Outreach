@@ -10,7 +10,6 @@ import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.util.Units;
 import frc.robot.Constants;
 import frc.robot.subsystems.io.real.DifferentialModuleReal;
-import frc.robot.subsystems.io.real.NavSensorReal;
 import frc.robot.subsystems.io.sim.DifferentialModuleSim;
 import frc.robot.subsystems.io.sim.NavSensorSim;
 import frc.robot.subsystems.io.stub.NavSensorStub;
