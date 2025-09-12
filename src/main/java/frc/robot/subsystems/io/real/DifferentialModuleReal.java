@@ -3,6 +3,7 @@ package frc.robot.subsystems.io.real;
 import com.revrobotics.spark.SparkBase;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.shuffleboard.ShuffleboardUI;
@@ -45,11 +46,11 @@ public class DifferentialModuleReal implements DifferentialModuleIO {
     followerConfig.follow(m_driveMotor).inverted(false);
 
     m_driveMotor.configure(
-        new SparkMaxConfig().inverted(m.inverted),
+        new SparkMaxConfig().inverted(m.inverted).idleMode(IdleMode.kBrake),
         SparkBase.ResetMode.kResetSafeParameters,
         SparkBase.PersistMode.kPersistParameters);
     m_driveMotorFollower.configure(
-        followerConfig,
+        followerConfig.idleMode(IdleMode.kBrake),
         SparkBase.ResetMode.kResetSafeParameters,
         SparkBase.PersistMode.kPersistParameters);
 

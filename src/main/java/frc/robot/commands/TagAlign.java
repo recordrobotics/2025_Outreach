@@ -21,7 +21,7 @@ public class TagAlign extends Command {
   private Map<Integer, Double> lastShotAtTagTimes = new HashMap<>();
   private int currentTargetId = -1;
 
-  private PIDController pid = new PIDController(2.6, 0, 0.5);
+  private PIDController pid = new PIDController(1.6, 0, 0.2);
 
   public TagAlign() {
     addRequirements(RobotContainer._drivetrain);
