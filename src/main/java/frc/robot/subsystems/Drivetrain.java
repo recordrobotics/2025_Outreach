@@ -10,9 +10,9 @@ import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.util.Units;
 import frc.robot.Constants;
 import frc.robot.subsystems.io.real.DifferentialModuleReal;
-import frc.robot.subsystems.io.real.NavSensorReal;
 import frc.robot.subsystems.io.sim.DifferentialModuleSim;
 import frc.robot.subsystems.io.sim.NavSensorSim;
+import frc.robot.subsystems.io.stub.NavSensorStub;
 import frc.robot.utils.DriveCommandData;
 import org.littletonrobotics.junction.AutoLogOutput;
 
@@ -42,7 +42,7 @@ public class Drivetrain extends KillableSubsystem {
     nav =
         new NavSensor(
             Constants.RobotState.getMode() == Constants.RobotState.Mode.REAL
-                ? new NavSensorReal()
+                ? new NavSensorStub()
                 : new NavSensorSim());
 
     m_left =

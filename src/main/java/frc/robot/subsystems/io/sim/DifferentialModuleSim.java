@@ -6,6 +6,7 @@ import com.revrobotics.sim.SparkMaxSim;
 import com.revrobotics.spark.SparkBase;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.math.filter.MedianFilter;
 import edu.wpi.first.math.system.plant.DCMotor;
@@ -62,11 +63,11 @@ public class DifferentialModuleSim implements DifferentialModuleIO, AutoCloseabl
     followerConfig.follow(m_driveMotor).inverted(false);
 
     m_driveMotor.configure(
-        followerConfig,
+        new SparkMaxConfig().inverted(m.inverted).idleMode(IdleMode.kBrake),
         SparkBase.ResetMode.kResetSafeParameters,
         SparkBase.PersistMode.kPersistParameters);
     m_driveMotorFollower.configure(
-        followerConfig,
+        followerConfig.idleMode(IdleMode.kBrake),
         SparkBase.ResetMode.kResetSafeParameters,
         SparkBase.PersistMode.kPersistParameters);
     m_driveMotorSim = new SparkMaxSim(m_driveMotor, wheelMotor);

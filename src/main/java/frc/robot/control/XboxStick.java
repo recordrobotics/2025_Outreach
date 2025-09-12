@@ -121,4 +121,9 @@ public class XboxStick extends AbstractControl {
                   || joystick.getRawButton(5)
                   || joystick.getRawButton(6);*/
   }
+
+  @Override
+  public Boolean getTagAlign() {
+    return joystick.getRawAxis(3) < -0.8;
+  }
 }

@@ -83,8 +83,8 @@ public class DifferentialModule {
   }
 
   public void update() {
-    double driveOutput =
-        drivePIDController.calculate(getDriveWheelVelocity(), speedMetersPerSecond);
+    double current = getDriveWheelVelocity();
+    double driveOutput = drivePIDController.calculate(current, speedMetersPerSecond);
     double driveFeedforwardOutput = driveFeedForward.calculate(speedMetersPerSecond);
     io.update(driveOutput + driveFeedforwardOutput, speedMetersPerSecond, driveFeedforwardOutput);
   }
