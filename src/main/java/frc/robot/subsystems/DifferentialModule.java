@@ -19,16 +19,7 @@ public class DifferentialModule {
   private final double WHEEL_DIAMETER;
   public double speedMetersPerSecond;
 
-  // Creates PID Controllers
-  private final PIDController drivePIDController =
-      new PIDController(
-          Constants.Differential.NEO_KP,
-          Constants.Differential.NEO_KI,
-          Constants.Differential.NEO_KD);
-
-  private final SimpleMotorFeedforward driveFeedForward =
-      new SimpleMotorFeedforward(
-          Constants.Differential.NEO_FEEDFORWARD_KS, Constants.Differential.NEO_FEEDFORWARD_KV);
+  private final SimpleMotorFeedforward driveFeedForward;
 
   /**
    * Constructs a SwerveModule with a drive motor, turning motor, and absolute turning encoder.
@@ -36,11 +27,15 @@ public class DifferentialModule {
    * @param m - a ModuleConstants object that contains all constants relevant for creating a swerve
    *     module. Look at ModuleConstants.java for what variables are contained
    */
-  public DifferentialModule(DifferentialModuleIO io, ModuleConstants m) {
+  public DifferentialModule(DifferentialModuleIO io, ModuleConstants m, double ksMul, double kvMul) {
     this.io = io;
 
     this.DRIVE_GEAR_RATIO = m.DRIVE_GEAR_RATIO;
     this.WHEEL_DIAMETER = m.WHEEL_DIAMETER;
+
+    driveFeedForward = 
+    new SimpleMotorFeedforward(
+        Constants.Differential.NEO_FEEDFORWARD_KS * ksMul, Constants.Differential.NEO_FEEDFORWARD_KV * kvMul);
 
     // Sets up shuffleboard
     //  setupShuffleboard(m.driveMotorChannel);
@@ -83,10 +78,8 @@ public class DifferentialModule {
   }
 
   public void update() {
-    double current = getDriveWheelVelocity();
-    double driveOutput = drivePIDController.calculate(current, speedMetersPerSecond);
     double driveFeedforwardOutput = driveFeedForward.calculate(speedMetersPerSecond);
-    io.update(driveOutput + driveFeedforwardOutput, speedMetersPerSecond, driveFeedforwardOutput);
+    io.update(driveFeedforwardOutput, speedMetersPerSecond, driveFeedforwardOutput);
   }
 
   public void stop() {
