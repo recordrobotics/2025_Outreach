@@ -40,7 +40,7 @@ public final class Constants {
 
   public final class Shooter {
 
-    public static final double SHOOT_TIME = .5;
+    public static final double SHOOT_TIME = 1.0;
 
     // voltage values
     // scale ~12

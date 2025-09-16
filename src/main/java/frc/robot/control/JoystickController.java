@@ -8,7 +8,7 @@ import frc.robot.utils.SimpleMath;
 
 public class JoystickController extends AbstractControl {
 
-  private double speed_level = 0.8;
+  private double speed_level = 0.4;
   private final Joystick drivestick;
 
   public JoystickController(int drivestickID) {
