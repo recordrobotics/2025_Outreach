@@ -20,6 +20,8 @@ public abstract class AbstractControl {
 
   public abstract Boolean getTwerk();
 
+  public abstract Boolean getTagAlign();
+
   // Orient XY
   public static Pair<Double, Double> OrientXY(Pair<Double, Double> input) {
     double inputX = input.getFirst();

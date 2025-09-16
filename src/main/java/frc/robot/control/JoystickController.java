@@ -8,7 +8,7 @@ import frc.robot.utils.SimpleMath;
 
 public class JoystickController extends AbstractControl {
 
-  private double speed_level = 0.8;
+  private double speed_level = 0.4;
   private final Joystick drivestick;
 
   public JoystickController(int drivestickID) {
@@ -85,5 +85,10 @@ public class JoystickController extends AbstractControl {
                   || drivestick.getRawButton(4)
                   || drivestick.getRawButton(5)
                   || drivestick.getRawButton(6);*/
+  }
+
+  @Override
+  public Boolean getTagAlign() {
+    return drivestick.getRawAxis(3) < -0.8;
   }
 }

@@ -40,7 +40,7 @@ public final class Constants {
 
   public final class Shooter {
 
-    public static final double SHOOT_TIME = .5;
+    public static final double SHOOT_TIME = 1.0;
 
     // voltage values
     // scale ~12
@@ -119,9 +119,9 @@ public final class Constants {
     public static final double NEO_GEAR_RATIO = 10;
 
     // PID Values
-    public static final double NEO_KP = 1.5;
+    public static final double NEO_KP = 0.01; // 1.5;
     public static final double NEO_KI = 0;
-    public static final double NEO_KD = 0.3;
+    public static final double NEO_KD = 0.03; // 0.3;
 
     public static final double NEO_FEEDFORWARD_KS = 0.4;
     public static final double NEO_FEEDFORWARD_KV = 2.4408;

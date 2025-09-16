@@ -3,6 +3,7 @@ package frc.robot.subsystems.io.real;
 import com.revrobotics.spark.SparkBase;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.shuffleboard.ShuffleboardUI;
@@ -34,25 +35,30 @@ public class DifferentialModuleReal implements DifferentialModuleIO {
    *     module. Look at ModuleConstants.java for what variables are contained
    * @return
    */
-  public DifferentialModuleReal(double periodicDt, ModuleConstants m) {
+  public DifferentialModuleReal(double periodicDt, ModuleConstants m, boolean useBrake, boolean createFollower) {
     this.periodicDt = periodicDt;
 
     // Creates TalonFX objects
     m_driveMotor = new SparkMax(m.driveMotorChannel, MotorType.kBrushless);
+    if(createFollower) {
     m_driveMotorFollower = new SparkMax(m.driveMotorFollowerChannel, MotorType.kBrushless);
+    } else {
+      m_driveMotorFollower = null;
+    }
 
     SparkMaxConfig followerConfig = new SparkMaxConfig();
     followerConfig.follow(m_driveMotor).inverted(false);
 
     m_driveMotor.configure(
-        followerConfig,
+        new SparkMaxConfig().inverted(m.inverted).idleMode(useBrake ? IdleMode.kBrake : IdleMode.kCoast),
         SparkBase.ResetMode.kResetSafeParameters,
         SparkBase.PersistMode.kPersistParameters);
+        if(createFollower) {
     m_driveMotorFollower.configure(
-        followerConfig,
+        followerConfig.idleMode(useBrake ? IdleMode.kBrake : IdleMode.kCoast),
         SparkBase.ResetMode.kResetSafeParameters,
         SparkBase.PersistMode.kPersistParameters);
-
+        }
     // Creates other variables
     this.DRIVE_GEAR_RATIO = m.DRIVE_GEAR_RATIO;
     this.WHEEL_DIAMETER = m.WHEEL_DIAMETER;
@@ -139,12 +145,14 @@ public class DifferentialModuleReal implements DifferentialModuleIO {
   @Override
   public void stop() {
     m_driveMotor.setVoltage(0);
-    m_driveMotorFollower.setVoltage(0);
+    if(m_driveMotorFollower != null)
+      m_driveMotorFollower.setVoltage(0);
   }
 
   @Override
   public void kill() {
     m_driveMotor.setVoltage(0);
+    if(m_driveMotorFollower != null)
     m_driveMotorFollower.setVoltage(0);
   }
 
@@ -166,6 +174,7 @@ public class DifferentialModuleReal implements DifferentialModuleIO {
   @Override
   public void close() throws Exception {
     m_driveMotor.close();
+    if(m_driveMotorFollower != null)
     m_driveMotorFollower.close();
   }
 }

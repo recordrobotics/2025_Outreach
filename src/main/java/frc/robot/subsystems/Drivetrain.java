@@ -10,9 +10,9 @@ import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.util.Units;
 import frc.robot.Constants;
 import frc.robot.subsystems.io.real.DifferentialModuleReal;
-import frc.robot.subsystems.io.real.NavSensorReal;
 import frc.robot.subsystems.io.sim.DifferentialModuleSim;
 import frc.robot.subsystems.io.sim.NavSensorSim;
+import frc.robot.subsystems.io.stub.NavSensorStub;
 import frc.robot.utils.DriveCommandData;
 import org.littletonrobotics.junction.AutoLogOutput;
 
@@ -42,22 +42,22 @@ public class Drivetrain extends KillableSubsystem {
     nav =
         new NavSensor(
             Constants.RobotState.getMode() == Constants.RobotState.Mode.REAL
-                ? new NavSensorReal()
+                ? new NavSensorStub()
                 : new NavSensorSim());
 
     m_left =
         new DifferentialModule(
             Constants.RobotState.getMode() == Constants.RobotState.Mode.REAL
-                ? new DifferentialModuleReal(0.02, Constants.Differential.leftConstants)
+                ? new DifferentialModuleReal(0.02, Constants.Differential.leftConstants, true, true)
                 : new DifferentialModuleSim(0.02, Constants.Differential.leftConstants),
-            Constants.Differential.leftConstants);
+            Constants.Differential.leftConstants, 1.0, 1.0);
 
     m_right =
         new DifferentialModule(
             Constants.RobotState.getMode() == Constants.RobotState.Mode.REAL
-                ? new DifferentialModuleReal(0.02, Constants.Differential.rightConstants)
+                ? new DifferentialModuleReal(0.02, Constants.Differential.rightConstants, true, true)
                 : new DifferentialModuleSim(0.02, Constants.Differential.rightConstants),
-            Constants.Differential.rightConstants);
+            Constants.Differential.rightConstants, 1.0, 1.0);
 
     m_poseEstimator =
         new DifferentialDrivePoseEstimator(
